@@ -1,14 +1,7 @@
 package com.developerex.server.room;
 
 import com.developerex.server.term.Term;
-import com.developerex.server.user.Attendee;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import com.developerex.server.attendee.Attendee;
 import java.time.LocalDateTime;
 import java.util.List;
 
