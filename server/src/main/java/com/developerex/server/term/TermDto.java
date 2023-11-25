@@ -1,9 +1,10 @@
 package com.developerex.server.term;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.developerex.server.room.RoomDto;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 
-public record TermDto(Long id, LocalDateTime startDateTime, String duration, String room) {
+@Builder
+public record TermDto(LocalDateTime startDateTime, int duration, RoomDto room) {
 }
