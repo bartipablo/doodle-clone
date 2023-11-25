@@ -24,6 +24,9 @@ spotkań.
 - Wybór najlepszego terminu.
 - Sposób wysyłania zaproszeń i akceptowania.
 
+## Schemat bazy danych
+![img.png](img.png)
+
 
 ## Milestone 1
 - [x] Setup repozytorium
