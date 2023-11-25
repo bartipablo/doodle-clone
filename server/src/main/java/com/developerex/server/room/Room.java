@@ -1,7 +1,7 @@
 package com.developerex.server.room;
 
 import com.developerex.server.term.Term;
-import com.developerex.server.user.Attendee;
+import com.developerex.server.attendee.Attendee;
 import lombok.*;
 
 import javax.persistence.*;
