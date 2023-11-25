@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,7 +19,7 @@ public class TermService {
     }
 
     public boolean addTerm(TermDto termDto) {
-        Term term = TermMapper.mapToTerm(termDto);
+        Term term = TermMapper.mapToEntity(termDto);
         termRepository.save(term);
         return true;
     }

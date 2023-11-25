@@ -2,13 +2,12 @@ package com.developerex.server.room;
 
 import com.developerex.server.attendee.AttendeeMapper;
 import com.developerex.server.term.TermMapper;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
 @Service
-public class RoomMapper  {
+public class RoomMapper {
 
     public static RoomDto mapToDto(Room room) {
         return RoomDto.builder()
@@ -25,7 +24,6 @@ public class RoomMapper  {
                         .map(AttendeeMapper::mapToDto)
                         .collect(Collectors.toList()))
                 .build();
-
     }
 
     public static Room mapToEntity(RoomDto roomDto) {
@@ -36,7 +34,7 @@ public class RoomMapper  {
                 .owner(roomDto.owner())
                 .terms(roomDto.terms()
                         .stream()
-                        .map(TermMapper::mapToTerm)
+                        .map(TermMapper::mapToEntity)
                         .collect(Collectors.toList()))
                 .build();
     }

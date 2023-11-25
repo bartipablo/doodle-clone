@@ -12,7 +12,7 @@ public class VoteMapper {
                 .build();
     }
 
-    public static Vote mapToVote(VoteDto voteDto) {
+    public static Vote mapToEntity(VoteDto voteDto) {
         return Vote.builder()
                 .voteType(voteDto.voteType())
                 .term(voteDto.term())

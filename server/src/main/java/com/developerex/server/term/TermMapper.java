@@ -12,7 +12,7 @@ public class TermMapper {
                 .build();
     }
 
-    public static Term mapToTerm(TermDto termDto) {
+    public static Term mapToEntity(TermDto termDto) {
         return Term.builder()
                 .startDateTime(termDto.startDateTime())
                 .duration(termDto.duration())
