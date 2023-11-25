@@ -1,4 +1,4 @@
-package com.developerex.server.user;
+package com.developerex.server.attendee;
 
 import com.developerex.server.room.Room;
 import lombok.*;
