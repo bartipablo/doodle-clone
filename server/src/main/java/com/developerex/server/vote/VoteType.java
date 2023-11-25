@@ -1,4 +1,8 @@
 package com.developerex.server.vote;
 
-public class VoteType {
+public enum VoteType {
+    AVAILABLE,
+    NOT_AVAILABLE,
+    MAYBE,
+    PENDING
 }
