@@ -1,5 +1,6 @@
 package com.developerex.server.room;
 
+import com.developerex.server.attendee.AttendeeDto;
 import com.developerex.server.term.Term;
 import com.developerex.server.attendee.Attendee;
 import com.developerex.server.term.TermDto;
@@ -15,6 +16,6 @@ public record RoomDto (
     LocalDateTime deadline,
     Attendee owner,
     List<TermDto> terms,
-    List<Attendee> participants
+    List<AttendeeDto> participants
         ){
     }

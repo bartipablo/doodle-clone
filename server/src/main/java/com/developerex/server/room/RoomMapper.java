@@ -1,5 +1,6 @@
 package com.developerex.server.room;
 
+import com.developerex.server.attendee.AttendeeMapper;
 import com.developerex.server.term.TermMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,10 @@ public class RoomMapper  {
                 .terms(room.getTerms()
                         .stream()
                         .map(TermMapper::mapToDto)
+                        .collect(Collectors.toList()))
+                .participants(room.getParticipants()
+                        .stream()
+                        .map(AttendeeMapper::mapToDto)
                         .collect(Collectors.toList()))
                 .build();
 
