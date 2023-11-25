@@ -13,7 +13,10 @@ public class TermService {
     private final TermRepository termRepository;
 
     public List<TermDto> getAllTerms() {
-        return termRepository.findAll().stream().map(TermMapper::mapToDto).collect(Collectors.toList());
+        return termRepository.findAll()
+                .stream()
+                .map(TermMapper::mapToDto)
+                .collect(Collectors.toList());
     }
 
     public boolean addTerm(TermDto termDto) {
