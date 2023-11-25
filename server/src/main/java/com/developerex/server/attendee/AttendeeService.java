@@ -1,8 +1,5 @@
 package com.developerex.server.attendee;
 
-import com.developerex.server.term.Term;
-import com.developerex.server.term.TermDto;
-import com.developerex.server.term.TermMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +21,7 @@ public class AttendeeService {
     }
 
     public boolean addAttendee(AttendeeDto attendeeDto) {
-        Attendee attendee = AttendeeMapper.mapToAttendee(attendeeDto);
+        Attendee attendee = AttendeeMapper.mapToEntity(attendeeDto);
         attendeeRepository.save(attendee);
         return true;
     }
