@@ -14,7 +14,6 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-
 public class Term {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
