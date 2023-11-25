@@ -1,5 +1,6 @@
 package com.developerex.server.term;
 
+import com.developerex.server.room.Room;
 import com.developerex.server.vote.Vote;
 import lombok.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+
 public class Term {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,4 +26,8 @@ public class Term {
 
     @OneToMany(mappedBy = "term")
     private List<Vote> votes;
+
+    @ManyToOne
+    @JoinColumn(name="room_id")
+    private Room room;
 }

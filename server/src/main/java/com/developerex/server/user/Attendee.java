@@ -12,11 +12,11 @@ import java.util.List;
 @Setter
 @Builder
 @Entity
-public class user {
+public class Attendee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String username;
     private String email;
@@ -25,6 +25,6 @@ public class user {
     @ManyToMany
     private List<Room> participationRooms;
 
-    @OneToMany
+    @OneToMany(mappedBy = "owner")
     private List<Room> ownedRooms;
 }

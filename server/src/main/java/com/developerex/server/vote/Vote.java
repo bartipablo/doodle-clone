@@ -1,12 +1,9 @@
 package com.developerex.server.vote;
 
 import com.developerex.server.term.Term;
-import com.developerex.server.user.User;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,19 +14,11 @@ import javax.persistence.ManyToOne;
 public class Vote {
     private VoteType voteType;
 
-    private User user;
-
     @Id
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="term_id")
     private Term term;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }

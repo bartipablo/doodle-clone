@@ -1,7 +1,7 @@
 package com.developerex.server.room;
 
 import com.developerex.server.term.Term;
-import com.developerex.server.user.User;
+import com.developerex.server.user.Attendee;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +18,7 @@ public class Room {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private String id;
+        private Long id;
 
         private String title;
 
@@ -27,12 +27,13 @@ public class Room {
         private LocalDateTime deadline;
 
         @ManyToOne
-        private User owner;
+        @JoinColumn(name="attendee_id")
+        private Attendee owner;
 
-        @OneToMany
+        @OneToMany(mappedBy = "room")
         private List<Term> terms;
 
         @ManyToMany
-        private List<User> participants;
+        private List<Attendee> participants;
 
 }
