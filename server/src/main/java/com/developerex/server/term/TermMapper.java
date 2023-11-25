@@ -1,6 +1,9 @@
 package com.developerex.server.term;
 
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class TermMapper {
     public static TermDto mapToDto(Term term) {
         return TermDto.builder()

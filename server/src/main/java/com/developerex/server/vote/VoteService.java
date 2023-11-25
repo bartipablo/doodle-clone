@@ -1,4 +1,4 @@
-package com.developerex.server.room;
+package com.developerex.server.vote;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,13 +8,14 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class RoomService {
-    private final RoomRepository roomRepository;
+public class VoteService {
 
-    public List<RoomDto> getAllRooms() {
-        return roomRepository.findAll()
+    private final VoteRepository voteRepository;
+
+    public List<VoteDto> getAllVotes() {
+        return voteRepository.findAll()
                 .stream()
-                .map(RoomMapper::mapToDto)
+                .map(VoteMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
