@@ -18,4 +18,5 @@ public class RoomController {
     public List<RoomDto> getAllRooms() {
         return roomService.getAllRooms();
     }
+
 }

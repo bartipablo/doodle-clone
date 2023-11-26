@@ -17,8 +17,8 @@ public class TermController {
     private final TermService termService;
 
     @GetMapping
-    public ResponseEntity<List<TermDto>> getAllTerms() {
-        return ResponseEntity.ok(termService.getAllTerms());
+    public List<TermDto> getAllTerms() {
+        return termService.getAllTerms();
     }
 
     @PostMapping

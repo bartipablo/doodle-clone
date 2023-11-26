@@ -29,4 +29,8 @@ public class Term {
     @ManyToOne
     @JoinColumn(name="room_id")
     private Room room;
+
+    public void addVote(Vote vote){
+        votes.add(vote);
+    }
 }
