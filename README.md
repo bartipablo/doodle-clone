@@ -33,6 +33,6 @@ spotkań.
 - [x] Plik README, plan działania
 - [x] Struktura
 - [x] Setup bazy danych
-- [ ] Setup unit testów
-- [ ] Klasy modelu z możliwością zapisu
+- [x] Setup unit testów
+- [x] Klasy modelu z możliwością zapisu
 - [x] Wydmuszka UI
