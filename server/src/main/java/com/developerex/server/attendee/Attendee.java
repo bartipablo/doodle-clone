@@ -23,7 +23,7 @@ public class Attendee {
     private String email;
     private String password;
 
-    @ManyToMany(mappedBy = "participants",cascade = { CascadeType.ALL})
+    @ManyToMany(mappedBy = "participants",cascade = { CascadeType.PERSIST})
     private Set<Room> participationRooms;
 
     @OneToMany(mappedBy = "owner")

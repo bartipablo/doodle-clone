@@ -69,13 +69,11 @@ public class ExampleConfiguration {
                 attendeeRepository.save(attendee2);
 
 
-//                //TO FIX!!!!!
-//                attendee1.addParticipationRoom(room);
-//                room.addParticipant(attendee1);
+                attendee1.addParticipationRoom(room);
+                room.addParticipant(attendee1);
 //
-//                attendeeRepository.save(attendee1);
-//                roomRepository.save(room);
-//                //TO FIX!!!!!
+                attendeeRepository.save(attendee1);
+                roomRepository.save(room);
 
                 var term1 = Term.builder()
                         .startDateTime(LocalDate.now().atStartOfDay())
@@ -109,7 +107,7 @@ public class ExampleConfiguration {
                 room.addTerm(term1);
                 room.addTerm(term2);
 
-                roomRepository.save(room);
+//                roomRepository.save(room);
             }
         };
     }

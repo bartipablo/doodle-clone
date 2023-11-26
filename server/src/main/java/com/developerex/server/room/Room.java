@@ -34,7 +34,7 @@ public class Room {
         @OneToMany(mappedBy = "room")
         private List<Term> terms;
 
-        @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL})
+        @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST})
         @JoinTable(
                 name = "room_attendee",
                 joinColumns = @JoinColumn(name = "room_id", referencedColumnName = "id"),
