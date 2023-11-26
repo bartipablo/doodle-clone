@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,15 +23,14 @@ public class Attendee {
     private String email;
     private String password;
 
-    @ManyToMany(mappedBy = "participants",cascade = { CascadeType.ALL})
-    private List<Room> participationRooms;
+    @ManyToMany(mappedBy = "participants",cascade = { CascadeType.PERSIST})
+    private Set<Room> participationRooms;
 
     @OneToMany(mappedBy = "owner")
     private List<Room> ownedRooms;
 
     public void addParticipationRoom(Room room) {
         this.participationRooms.add(room);
-        room.addParticipant(this);
     }
 
     public void addOwnedRoom(Room room) {
