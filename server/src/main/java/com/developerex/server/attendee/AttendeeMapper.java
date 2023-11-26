@@ -34,7 +34,7 @@ public class AttendeeMapper  {
                 .participationRooms(attendeeDto.participationRooms()
                         .stream()
                         .map(RoomMapper::mapToEntity)
-                        .collect(Collectors.toList()))
+                        .collect(Collectors.toSet()))
                 .build();
     }
 }
