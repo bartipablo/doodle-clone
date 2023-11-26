@@ -17,13 +17,15 @@ public class AttendeeService {
                 .stream()
                 .map(AttendeeMapper::mapToDto)
                 .collect(Collectors.toList());
-
     }
+
+
 
     public boolean addAttendee(AttendeeDto attendeeDto) {
         Attendee attendee = AttendeeMapper.mapToEntity(attendeeDto);
         attendeeRepository.save(attendee);
         return true;
     }
+
 
 }
