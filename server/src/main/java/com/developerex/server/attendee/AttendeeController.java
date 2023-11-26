@@ -28,6 +28,7 @@ public class AttendeeController {
         List<AttendeeDto> attendees = attendeeService.getAllAttendees();
         return new ResponseEntity<>(attendees, HttpStatus.OK);
     }
+
     @PostMapping
     public ResponseEntity<AttendeeDto> addAttendee(AttendeeDto attendeeDto) {
         return ResponseEntity.ok(attendeeDto);
