@@ -12,7 +12,7 @@ public record AttendeeDto(
      String username,
      String email,
      String password,
-      List<RoomDto> participationRooms,
+     List<RoomDto> participationRooms,
      List<RoomDto> ownedRooms
 )
 {

@@ -2,6 +2,8 @@ package com.developerex.server.attendee;
 
 
 import com.developerex.server.room.RoomMapper;
+
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 
@@ -11,14 +13,22 @@ public class AttendeeMapper  {
                 .email(attendee.getEmail())
                 .username(attendee.getUsername())
                 .password(attendee.getPassword())
-                .ownedRooms(attendee.getOwnedRooms()
+//                .ownedRooms(attendee.getOwnedRooms()
+//                        .stream()
+//                        .map(RoomMapper::mapToDto)
+//                        .collect(Collectors.toList()))
+                .ownedRooms((attendee.getOwnedRooms() != null)
+                        ? attendee.getOwnedRooms()
                         .stream()
                         .map(RoomMapper::mapToDto)
-                        .collect(Collectors.toList()))
-                .participationRooms(attendee.getParticipationRooms()
+                        .collect(Collectors.toList())
+                        : Collections.emptyList())
+                .participationRooms((attendee.getParticipationRooms() != null)
+                        ? attendee.getParticipationRooms()
                         .stream()
                         .map(RoomMapper::mapToDto)
-                        .collect(Collectors.toList()))
+                        .collect(Collectors.toList())
+                        : Collections.emptyList())
                 .build();
     }
 
