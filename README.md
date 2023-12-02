@@ -27,6 +27,19 @@ spotkań.
 ## Schemat bazy danych
 ![img.png](img.png)
 
+## Uruchomienie projektu
+- Server
+    ```
+    cd server
+    ./gradlew build
+    ./gradlew bootRun
+    ```
+- Client
+    ```
+    cd client
+    ./gradlew build
+    ./gradlew run
+    ```
 
 ## Milestone 1
 - [x] Setup repozytorium
