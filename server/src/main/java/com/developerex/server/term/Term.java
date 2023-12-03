@@ -2,6 +2,7 @@ package com.developerex.server.term;
 
 import com.developerex.server.room.Room;
 import com.developerex.server.vote.Vote;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,10 +25,12 @@ public class Term {
     private int duration;
 
     @OneToMany(mappedBy = "term")
+    @JsonBackReference
     private List<Vote> votes;
 
     @ManyToOne
     @JoinColumn(name="room_id")
+    @JsonBackReference
     private Room room;
 
     public void addVote(Vote vote){

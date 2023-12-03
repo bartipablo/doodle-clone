@@ -1,6 +1,7 @@
 package com.developerex.server.vote;
 
 import com.developerex.server.term.Term;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Vote {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="term_id")
+    @JsonManagedReference
     private Term term;
 
 }

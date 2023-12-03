@@ -2,6 +2,7 @@ package com.developerex.server.term;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +18,9 @@ public class TermController {
     private final TermService termService;
 
     @GetMapping
-    public List<TermDto> getAllTerms() {
-        return termService.getAllTerms();
+    public ResponseEntity<List<TermDto>> getAllTerms() {
+        List<TermDto> terms = termService.getAllTerms();
+        return new ResponseEntity<>(terms, HttpStatus.OK);
     }
 
     @PostMapping

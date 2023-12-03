@@ -14,7 +14,7 @@ public record RoomDto (
     String title,
     String description,
     LocalDateTime deadline,
-    Attendee owner,
+    AttendeeDto owner,
     List<TermDto> terms,
     List<AttendeeDto> participants
         ){

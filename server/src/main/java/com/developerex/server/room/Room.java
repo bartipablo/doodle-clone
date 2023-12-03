@@ -2,6 +2,9 @@ package com.developerex.server.room;
 
 import com.developerex.server.term.Term;
 import com.developerex.server.attendee.Attendee;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,9 +32,11 @@ public class Room {
 
         @ManyToOne
         @JoinColumn(name="owner_id")
+        @JsonManagedReference
         private Attendee owner;
 
         @OneToMany(mappedBy = "room")
+        @JsonManagedReference
         private List<Term> terms;
 
         @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST})
@@ -40,6 +45,7 @@ public class Room {
                 joinColumns = @JoinColumn(name = "room_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "attendee_id", referencedColumnName = "id")
         )
+        @JsonManagedReference
         private Set<Attendee> participants;
 
         public void addTerm(Term term) {

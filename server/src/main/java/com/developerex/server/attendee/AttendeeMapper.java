@@ -2,21 +2,18 @@ package com.developerex.server.attendee;
 
 
 import com.developerex.server.room.RoomMapper;
+import org.springframework.web.bind.annotation.Mapping;
 
 import java.util.Collections;
 import java.util.stream.Collectors;
 
-
 public class AttendeeMapper  {
+
     public static AttendeeDto mapToDto(Attendee attendee) {
         return AttendeeDto.builder()
                 .email(attendee.getEmail())
                 .username(attendee.getUsername())
                 .password(attendee.getPassword())
-//                .ownedRooms(attendee.getOwnedRooms()
-//                        .stream()
-//                        .map(RoomMapper::mapToDto)
-//                        .collect(Collectors.toList()))
                 .ownedRooms((attendee.getOwnedRooms() != null)
                         ? attendee.getOwnedRooms()
                         .stream()
