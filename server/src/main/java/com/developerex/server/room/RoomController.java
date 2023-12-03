@@ -21,9 +21,15 @@ public class RoomController {
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 
-    @GetMapping("/get-all-rooms/{userId}")
+    @GetMapping("/get-owned-rooms/{userId}")
     public ResponseEntity<List<RoomDto>> getAllRoomsOwnedByUserId(@PathVariable Long userId) {
         List<RoomDto> rooms = roomService.getAllRoomsOwnedByUserId(userId);
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-participation-rooms/{userId}")
+    public ResponseEntity<List<RoomDto>> getAllRoomsParticipatedByUserId(@PathVariable Long userId) {
+        List<RoomDto> rooms = roomService.getAllRoomsParticipatedByUserId(userId);
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 

@@ -31,4 +31,11 @@ public class RoomService {
                 .map(RoomMapper::mapToDto)
                 .collect(Collectors.toList());
     }
+
+    public List<RoomDto> getAllRoomsParticipatedByUserId(Long userId) {
+        return roomRepository.findAllByParticipantsId(userId).orElseThrow(() -> new EntityNotFoundException("No rooms found for user with id: " + userId))
+                .stream()
+                .map(RoomMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
 }
