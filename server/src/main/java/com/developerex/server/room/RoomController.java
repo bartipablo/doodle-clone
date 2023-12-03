@@ -21,6 +21,12 @@ public class RoomController {
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 
+    @GetMapping("/get-all-rooms/{userId}")
+    public ResponseEntity<List<RoomDto>> getAllRoomsOwnedByUserId(@PathVariable Long userId) {
+        List<RoomDto> rooms = roomService.getAllRoomsOwnedByUserId(userId);
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<RoomDto> addRoom(@RequestBody RoomDto roomDto) {
         if (roomService.addRoom(roomDto)){
@@ -28,5 +34,4 @@ public class RoomController {
         }
         return ResponseEntity.badRequest().build();
     }
-
 }
