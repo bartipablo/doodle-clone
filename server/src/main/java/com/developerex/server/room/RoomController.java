@@ -33,6 +33,12 @@ public class RoomController {
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 
+    @GetMapping("/get-room/{roomId}")
+    public ResponseEntity<RoomDto> getRoomById(@PathVariable Long roomId) {
+        RoomDto room = roomService.getRoomById(roomId);
+        return new ResponseEntity<>(room, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<RoomDto> addRoom(@RequestBody RoomDto roomDto) {
         if (roomService.addRoom(roomDto)){

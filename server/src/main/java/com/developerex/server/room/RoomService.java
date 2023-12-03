@@ -38,4 +38,8 @@ public class RoomService {
                 .map(RoomMapper::mapToDto)
                 .collect(Collectors.toList());
     }
+
+    public RoomDto getRoomById(Long roomId) {
+        return RoomMapper.mapToDto(roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("No room found with id: " + roomId)));
+    }
 }
