@@ -1,7 +1,7 @@
 package com.developerex.server.attendee;
 
 
-import com.developerex.server.term.TermDto;
+import com.developerex.server.attendee.dto.AttendeeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,9 +1,7 @@
-package com.developerex.server.room;
+package com.developerex.server.room.model;
 
-import com.developerex.server.term.Term;
-import com.developerex.server.attendee.Attendee;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.developerex.server.term.model.Term;
+import com.developerex.server.attendee.model.Attendee;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 

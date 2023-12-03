@@ -1,5 +1,10 @@
 package com.developerex.server.room;
 
+import com.developerex.server.attendee.dto.AttendeeDto;
+import com.developerex.server.attendee.mapper.AttendeeMapper;
+import com.developerex.server.room.dto.RoomDto;
+import com.developerex.server.room.mapper.RoomMapper;
+import com.developerex.server.room.model.Room;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,4 +47,21 @@ public class RoomService {
     public RoomDto getRoomById(Long roomId) {
         return RoomMapper.mapToDto(roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("No room found with id: " + roomId)));
     }
+
+    public List<AttendeeDto> getRoomAttendees(Long roomId) {
+        return roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("No room found with id: " + roomId))
+                .getParticipants()
+                .stream()
+                .map(AttendeeMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+//  TODO: Implement this method
+//    public List<AttendeeDto> getRoomInfo(Long roomId) {
+//        return roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("No room found with id: " + roomId))
+//                .getParticipants()
+//                .stream()
+//                .map(AttendeeMapper::mapToDto)
+//                .collect(Collectors.toList());
+//    }
 }

@@ -1,6 +1,7 @@
 package com.developerex.server.room;
 
-import com.developerex.server.attendee.AttendeeDto;
+import com.developerex.server.attendee.dto.AttendeeDto;
+import com.developerex.server.room.dto.RoomDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,19 @@ public class RoomController {
         RoomDto room = roomService.getRoomById(roomId);
         return new ResponseEntity<>(room, HttpStatus.OK);
     }
+
+    @GetMapping("/get-room-attendees/{roomId}")
+    public ResponseEntity<List<AttendeeDto>> getRoomAttendees(@PathVariable Long roomId) {
+        List<AttendeeDto> attendees = roomService.getRoomAttendees(roomId);
+        return new ResponseEntity<>(attendees, HttpStatus.OK);
+    }
+
+//    TODO: Implement this method
+//    @GetMapping("/get-room-info/{roomId}")
+//    public ResponseEntity<List<AttendeeDto>> getRoomVotesInfo(@PathVariable Long roomId) {
+//        List<AttendeeDto> attendees = roomService.getRoomInfo(roomId);
+//        return new ResponseEntity<>(attendees, HttpStatus.OK);
+//    }
 
     @PostMapping
     public ResponseEntity<RoomDto> addRoom(@RequestBody RoomDto roomDto) {

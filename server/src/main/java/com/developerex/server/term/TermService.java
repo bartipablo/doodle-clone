@@ -1,8 +1,12 @@
 package com.developerex.server.term;
 
+import com.developerex.server.term.dto.TermDto;
+import com.developerex.server.term.mapper.TermMapper;
+import com.developerex.server.term.model.Term;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,6 +15,7 @@ import java.util.stream.Collectors;
 public class TermService {
     private final TermRepository termRepository;
 
+    @Transactional
     public List<TermDto> getAllTerms() {
         return termRepository.findAll()
                 .stream()
@@ -18,9 +23,13 @@ public class TermService {
                 .collect(Collectors.toList());
     }
 
-    public boolean addTerm(TermDto termDto) {
+    @Transactional
+    public TermDto addTerm(TermDto termDto) {
         Term term = TermMapper.mapToEntity(termDto);
         termRepository.save(term);
-        return true;
+        // set id field in record
+
+
+        return termDto;
     }
 }

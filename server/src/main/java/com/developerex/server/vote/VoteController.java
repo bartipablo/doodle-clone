@@ -1,8 +1,7 @@
 package com.developerex.server.vote;
 
 
-import com.developerex.server.room.RoomDto;
-import com.developerex.server.room.RoomService;
+import com.developerex.server.vote.dto.VoteDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

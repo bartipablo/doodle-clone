@@ -1,14 +1,14 @@
 package com.developerex.server;
 
-import com.developerex.server.attendee.Attendee;
+import com.developerex.server.attendee.model.Attendee;
 import com.developerex.server.attendee.AttendeeRepository;
-import com.developerex.server.room.Room;
+import com.developerex.server.room.model.Room;
 import com.developerex.server.room.RoomRepository;
-import com.developerex.server.term.Term;
+import com.developerex.server.term.model.Term;
 import com.developerex.server.term.TermRepository;
-import com.developerex.server.vote.Vote;
+import com.developerex.server.vote.model.Vote;
 import com.developerex.server.vote.VoteRepository;
-import com.developerex.server.vote.VoteType;
+import com.developerex.server.vote.model.VoteType;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

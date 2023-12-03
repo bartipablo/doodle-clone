@@ -1,4 +1,4 @@
-package com.developerex.server.vote;
+package com.developerex.server.vote.model;
 
 public enum VoteType {
     AVAILABLE,

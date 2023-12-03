@@ -1,6 +1,6 @@
-package com.developerex.server.vote;
+package com.developerex.server.vote.model;
 
-import com.developerex.server.term.Term;
+import com.developerex.server.term.model.Term;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 

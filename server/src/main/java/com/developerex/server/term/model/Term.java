@@ -1,7 +1,7 @@
-package com.developerex.server.term;
+package com.developerex.server.term.model;
 
-import com.developerex.server.room.Room;
-import com.developerex.server.vote.Vote;
+import com.developerex.server.room.model.Room;
+import com.developerex.server.vote.model.Vote;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 

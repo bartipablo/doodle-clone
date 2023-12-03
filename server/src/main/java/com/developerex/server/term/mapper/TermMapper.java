@@ -1,6 +1,8 @@
-package com.developerex.server.term;
+package com.developerex.server.term.mapper;
 
 
+import com.developerex.server.term.dto.TermDto;
+import com.developerex.server.term.model.Term;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,5 +1,7 @@
 package com.developerex.server.attendee;
 
+import com.developerex.server.attendee.dto.AttendeeDto;
+import com.developerex.server.attendee.model.Attendee;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.developerex.server.attendee.AttendeeMapper.mapToDto;
+import static com.developerex.server.attendee.mapper.AttendeeMapper.mapToDto;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
