@@ -19,9 +19,10 @@ public class VoteService {
                 .collect(Collectors.toList());
     }
 
-    public void addVote(VoteDto voteDto) {
+    public boolean addVote(VoteDto voteDto) {
         Vote vote = VoteMapper.mapToEntity(voteDto);
         voteRepository.save(vote);
+        return true;
     }
 
 }

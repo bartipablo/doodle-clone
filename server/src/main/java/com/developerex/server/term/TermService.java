@@ -18,8 +18,9 @@ public class TermService {
                 .collect(Collectors.toList());
     }
 
-    public void addTerm(TermDto termDto) {
+    public boolean addTerm(TermDto termDto) {
         Term term = TermMapper.mapToEntity(termDto);
         termRepository.save(term);
+        return true;
     }
 }

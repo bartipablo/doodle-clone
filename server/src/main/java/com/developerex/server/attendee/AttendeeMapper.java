@@ -34,14 +34,18 @@ public class AttendeeMapper  {
                 .email(attendeeDto.email())
                 .username(attendeeDto.username())
                 .password(attendeeDto.password())
-                .ownedRooms(attendeeDto.ownedRooms()
+                .ownedRooms((attendeeDto.ownedRooms() != null)
+                        ? attendeeDto.ownedRooms()
                         .stream()
                         .map(RoomMapper::mapToEntity)
-                        .collect(Collectors.toList()))
-                .participationRooms(attendeeDto.participationRooms()
+                        .collect(Collectors.toList())
+                        : Collections.emptyList())
+                .participationRooms((attendeeDto.participationRooms() != null)
+                        ? attendeeDto.participationRooms()
                         .stream()
                         .map(RoomMapper::mapToEntity)
-                        .collect(Collectors.toSet()))
+                        .collect(Collectors.toSet())
+                        : Collections.emptySet())
                 .build();
     }
 }

@@ -18,9 +18,10 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
-    public void addRoom(RoomDto roomDto) {
+    public boolean addRoom(RoomDto roomDto) {
         Room room = RoomMapper.mapToEntity(roomDto);
         roomRepository.save(room);
+        return true;
     }
 
 }

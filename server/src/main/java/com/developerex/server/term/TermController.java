@@ -23,12 +23,12 @@ public class TermController {
         return new ResponseEntity<>(terms, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<TermDto> addTerm(TermDto termDto) {
-//        if (termService.addTerm(termDto)){
-//            return ResponseEntity.ok(termDto);
-//        }
-//        return ResponseEntity.badRequest().build();
-        return ResponseEntity.ok(termDto);
-    }
+//    @PostMapping
+//    public ResponseEntity<TermDto> addTerm(TermDto termDto) {
+////        if (termService.addTerm(termDto)){
+////            return ResponseEntity.ok(termDto);
+////        }
+////        return ResponseEntity.badRequest().build();
+//        return ResponseEntity.ok(termDto);
+//    }
 }
