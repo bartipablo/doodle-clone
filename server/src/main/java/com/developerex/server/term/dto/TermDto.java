@@ -1,6 +1,5 @@
-package com.developerex.server.term;
+package com.developerex.server.term.dto;
 
-import com.developerex.server.room.RoomDto;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -8,6 +7,5 @@ import java.time.LocalDateTime;
 @Builder
 public record TermDto(
         LocalDateTime startDateTime,
-        int duration,
-        RoomDto room) {
+        int duration) {
 }

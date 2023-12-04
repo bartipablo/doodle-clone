@@ -1,6 +1,7 @@
-package com.developerex.server.attendee;
+package com.developerex.server.attendee.model;
 
-import com.developerex.server.room.Room;
+import com.developerex.server.room.model.Room;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,10 +24,12 @@ public class Attendee {
     private String email;
     private String password;
 
-    @ManyToMany(mappedBy = "participants",cascade = { CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST})
+    @JsonBackReference
     private Set<Room> participationRooms;
 
     @OneToMany(mappedBy = "owner")
+    @JsonBackReference
     private List<Room> ownedRooms;
 
     public void addParticipationRoom(Room room) {

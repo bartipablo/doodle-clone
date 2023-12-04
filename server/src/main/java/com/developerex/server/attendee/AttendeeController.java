@@ -1,14 +1,11 @@
 package com.developerex.server.attendee;
 
 
-import com.developerex.server.term.TermDto;
+import com.developerex.server.attendee.dto.AttendeeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,8 +27,11 @@ public class AttendeeController {
     }
 
     @PostMapping
-    public ResponseEntity<AttendeeDto> addAttendee(AttendeeDto attendeeDto) {
-        return ResponseEntity.ok(attendeeDto);
+    public ResponseEntity<AttendeeDto> addAttendee(@RequestBody AttendeeDto attendeeDto) {
+        if (attendeeService.addAttendee(attendeeDto)){
+            return ResponseEntity.ok(attendeeDto);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 }
