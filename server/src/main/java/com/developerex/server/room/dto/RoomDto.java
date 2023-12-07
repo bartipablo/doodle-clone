@@ -9,6 +9,7 @@ import java.util.List;
 
 @Builder
 public record RoomDto (
+        Long id,
     String title,
     String description,
     LocalDateTime deadline,

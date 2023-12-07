@@ -13,6 +13,7 @@ public class RoomMapper {
 
     public static RoomDto mapToDto(Room room) {
         return RoomDto.builder()
+                .id(room.getId())
                 .title(room.getTitle())
                 .description(room.getDescription())
                 .deadline(room.getDeadline())
