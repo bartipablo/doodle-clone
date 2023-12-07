@@ -33,4 +33,25 @@ public class RoomMapper {
                 .build();
     }
 
+    public static Room mapToEntity(RoomDto roomDto) {
+        return Room.builder()
+                .id(roomDto.id())
+                .title(roomDto.title())
+                .description(roomDto.description())
+                .deadline(roomDto.deadline())
+                .owner((roomDto.owner() != null) ? AttendeeMapper.mapToEntity(roomDto.owner()) : null)
+                .terms((roomDto.terms() != null)
+                        ? roomDto.terms()
+                        .stream()
+                        .map(TermMapper::mapToEntity)
+                        .collect(Collectors.toList())
+                        : null)
+                .participants(roomDto.participants() != null ?
+                        roomDto.participants()
+                                .stream()
+                                .map(AttendeeMapper::mapToEntity)
+                                .collect(Collectors.toSet())
+                        : null)
+                .build();
+    }
 }

@@ -146,13 +146,23 @@ class RoomMapperTest {
         var actualEntity = RoomMapper.mapToEntity(dto);
 
         //then
-
         assertAll(
                 () -> assertEquals(expectedEntity.getId(), actualEntity.getId()),
                 () -> assertEquals(expectedEntity.getTitle(), actualEntity.getTitle()),
                 () -> assertEquals(expectedEntity.getDescription(), actualEntity.getDescription()),
                 () -> assertEquals(expectedEntity.getDeadline(), actualEntity.getDeadline()),
-                () -> assertEquals(expectedEntity.getOwner(), actualEntity.getOwner())
+                () -> assertEquals(expectedEntity.getOwner(), actualEntity.getOwner()),
+                () -> {
+                    for (Term term : expectedEntity.getTerms()) {
+                        assertThat(actualEntity.getTerms(), hasItem(term));
+                    }
+                },
+                () -> {
+                    for (Attendee participant : expectedEntity.getParticipants()) {
+                        assertThat(actualEntity.getParticipants(), hasItem(participant));
+                    }
+                }
+
         );
     }
 }
