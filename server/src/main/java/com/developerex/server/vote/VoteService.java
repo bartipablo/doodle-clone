@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class VoteService {
-
     private final VoteRepository voteRepository;
     private final RoomRepository roomRepository;
     private final TermRepository termRepository;
@@ -33,7 +32,7 @@ public class VoteService {
     }
 
     public boolean addVote(NewVoteDto voteDto) {
-        LocalDateTime term = termRepository.findById(voteDto.getTermId()).orElseThrow(() -> new EntityNotFoundException("No term found with id: " + voteDto.getTermId())).getStartDateTime();
+        LocalDateTime term = roomRepository.findById(termRepository.findById(voteDto.getTermId()).orElseThrow().getRoom().getId()).orElseThrow(() -> new EntityNotFoundException("No room found")).getDeadline();
 
         if (term.isBefore(LocalDateTime.now())) {
             return false;
