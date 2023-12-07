@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -44,4 +45,5 @@ public class Attendee {
     public void addOwnedRoom(Room room) {
         this.ownedRooms.add(room);
     }
+
 }

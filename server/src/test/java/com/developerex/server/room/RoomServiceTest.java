@@ -21,7 +21,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 class RoomServiceTest {
-    
+
     @Test
     void getAllRoomsOwnedByUserIdShouldReturnAllUserOwnedRooms() {
         //given
