@@ -33,18 +33,4 @@ public class RoomMapper {
                 .build();
     }
 
-    public static Room mapToEntity(RoomDto roomDto) {
-        return Room.builder()
-                .title(roomDto.title())
-                .description(roomDto.description())
-                .deadline(roomDto.deadline())
-                .owner((roomDto.owner() != null) ? AttendeeMapper.mapToEntity(roomDto.owner()) : null)
-                .terms((roomDto.terms() != null)
-                        ? roomDto.terms()
-                        .stream()
-                        .map(TermMapper::mapToEntity)
-                        .collect(Collectors.toList())
-                        : null)
-                .build();
-    }
 }
