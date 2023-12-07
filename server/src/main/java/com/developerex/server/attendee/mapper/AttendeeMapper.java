@@ -11,6 +11,7 @@ public class AttendeeMapper  {
                 .email(attendee.getEmail())
                 .username(attendee.getUsername())
                 .password(attendee.getPassword())
+                .id(attendee.getId())
                 .build();
     }
 
@@ -19,6 +20,7 @@ public class AttendeeMapper  {
                 .email(attendeeDto.email())
                 .username(attendeeDto.username())
                 .password(attendeeDto.password())
+                .id(attendeeDto.id())
                 .build();
     }
 }
