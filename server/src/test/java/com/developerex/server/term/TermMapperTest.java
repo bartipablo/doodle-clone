@@ -62,7 +62,6 @@ class TermMapperTest {
 
         //then
         assertAll(
-                () -> assertEquals(expectedEntity.getId(), actualEntity.getId()),
                 () -> assertEquals(expectedEntity.getStartDateTime(), actualEntity.getStartDateTime()),
                 () -> assertEquals(expectedEntity.getDuration(), actualEntity.getDuration())
         );

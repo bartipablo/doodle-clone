@@ -61,7 +61,6 @@ class AttendeeMapperTest {
 
         //then
         assertAll(
-                () -> assertEquals(expectedEntity.getId(), actualEntity.getId()),
                 () -> assertEquals(expectedEntity.getUsername(), actualEntity.getUsername()),
                 () -> assertEquals(expectedEntity.getEmail(), actualEntity.getEmail()),
                 () -> assertEquals(expectedEntity.getPassword(), actualEntity.getPassword())

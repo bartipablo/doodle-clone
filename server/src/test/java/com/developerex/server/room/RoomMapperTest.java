@@ -125,7 +125,7 @@ class RoomMapperTest {
                 .deadline(specificDateTime)
                 .terms(List.of(term1, term2))
                 .owner(owner)
-                .participants(List.of(participant1, participant2))
+                .participants(List.of(participant1))
                 .build();
 
         var expectedEntity = Room.builder()
@@ -138,8 +138,7 @@ class RoomMapperTest {
                         TermMapper.mapToEntity(term2)))
                 .owner(AttendeeMapper.mapToEntity(owner))
                 .participants(Set.of(
-                        AttendeeMapper.mapToEntity(participant1),
-                        AttendeeMapper.mapToEntity(participant2)))
+                        AttendeeMapper.mapToEntity(participant1)))
                 .build();
 
         //when
@@ -147,7 +146,6 @@ class RoomMapperTest {
 
         //then
         assertAll(
-                () -> assertEquals(expectedEntity.getId(), actualEntity.getId()),
                 () -> assertEquals(expectedEntity.getTitle(), actualEntity.getTitle()),
                 () -> assertEquals(expectedEntity.getDescription(), actualEntity.getDescription()),
                 () -> assertEquals(expectedEntity.getDeadline(), actualEntity.getDeadline()),

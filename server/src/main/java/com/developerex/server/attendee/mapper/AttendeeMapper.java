@@ -20,7 +20,6 @@ public class AttendeeMapper  {
                 .email(attendeeDto.email())
                 .username(attendeeDto.username())
                 .password(attendeeDto.password())
-                .id(attendeeDto.id())
                 .build();
     }
 }

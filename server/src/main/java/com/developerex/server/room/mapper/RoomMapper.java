@@ -35,7 +35,6 @@ public class RoomMapper {
 
     public static Room mapToEntity(RoomDto roomDto) {
         return Room.builder()
-                .id(roomDto.id())
                 .title(roomDto.title())
                 .description(roomDto.description())
                 .deadline(roomDto.deadline())
