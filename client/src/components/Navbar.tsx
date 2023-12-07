@@ -1,5 +1,6 @@
 import { useAtom } from 'jotai';
 import { userAtom } from '../lib/user';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const [user, setUser] = useAtom(userAtom);
@@ -8,7 +9,7 @@ const Navbar = () => {
             <span className="text-xl font-semibold">Doodle</span>
             <ul className="flex gap-6">
                 <li>
-                    <a href="/">Home</a>
+                    <Link to="/">Home</Link>
                 </li>
                 {user == undefined && (
                     <li>
