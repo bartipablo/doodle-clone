@@ -70,6 +70,8 @@ public class RoomService {
                 .orElseThrow(() -> new EntityNotFoundException("No room found with id: " + roomId));
 
 
+        AttendeeDto owner = AttendeeMapper.mapToDto(room.getOwner());
+
         List<AttendeeDto> participants = room.getParticipants()
                 .stream()
                 .map(AttendeeMapper::mapToDto)
@@ -89,9 +91,11 @@ public class RoomService {
                 .map(VoteMapper::mapToDto)
                 .toList();
 
-        return new RoomInfoDto(
-                participants,
-                votesPerTerm,
-                allVotes);
+        return RoomInfoDto.builder()
+                .owner(owner)
+                .participants(participants)
+                .votesPerTerm(votesPerTerm)
+                .allVotes(allVotes)
+                .build();
     }
 }

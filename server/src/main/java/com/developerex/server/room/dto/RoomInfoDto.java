@@ -10,6 +10,8 @@ import java.util.List;
 
 @Builder
 public record RoomInfoDto (
+    AttendeeDto owner,
+
     List<AttendeeDto> participants,
 
     HashMap<TermDto, Long> votesPerTerm,
