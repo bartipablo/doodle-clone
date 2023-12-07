@@ -1,6 +1,7 @@
 package com.developerex.server.term.model;
 
 import com.developerex.server.room.model.Room;
+import com.developerex.server.validation.FutureFetchTime;
 import com.developerex.server.vote.model.Vote;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
@@ -22,10 +23,12 @@ public class Term {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @FutureFetchTime(message = "Term start date must be in the future")
     private LocalDateTime startDateTime;
 
     @PositiveOrZero(message = "Duration must be positive or zero")
     @NotNull(message = "Duration must not be null")
+
     private int duration;
 
     @OneToMany(mappedBy = "term")
