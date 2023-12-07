@@ -37,8 +37,8 @@ spotkań.
 - Client
     ```
     cd client
-    ./gradlew build
-    ./gradlew run
+    npm install/pnpm install/bun install
+    npm run dev/pnpm run dev/bun run dev
     ```
 
 ## Milestone 1
