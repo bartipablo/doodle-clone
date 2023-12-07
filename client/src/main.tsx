@@ -6,6 +6,7 @@ import ProtectedRoute from './pages/ProtectedRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Navbar from './components/Navbar';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const router = createBrowserRouter([
     {
@@ -22,11 +23,15 @@ const router = createBrowserRouter([
     },
 ]);
 
+const queryClient = new QueryClient();
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <Navbar />
-        <main className="flex flex-1 items-center justify-center">
-            <RouterProvider router={router} />
-        </main>
+        <QueryClientProvider client={queryClient}>
+            <Navbar />
+            <main className="flex flex-1 items-center justify-center">
+                <RouterProvider router={router} />
+            </main>
+        </QueryClientProvider>
     </React.StrictMode>
 );
