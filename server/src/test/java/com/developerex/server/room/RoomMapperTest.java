@@ -93,5 +93,74 @@ class RoomMapperTest {
         );
     }
 
+    @Test
+    void mapToEntity() {
+        LocalDateTime specificDateTime = LocalDateTime.of(2023, 12, 7, 15, 30);
 
+        //given
+        var owner = AttendeeDto.builder()
+                .id(1L)
+                .build();
+
+        var term1 = TermDto.builder()
+                .id(1L)
+                .build();
+
+        var term2 = TermDto.builder()
+                .id(2L)
+                .build();
+
+        var participant1 = AttendeeDto.builder()
+                .id(1L)
+                .build();
+
+        var participant2 = AttendeeDto.builder()
+                .id(2L)
+                .build();
+
+        var dto = RoomDto.builder()
+                .id(1L)
+                .title("title")
+                .description("description")
+                .deadline(specificDateTime)
+                .terms(List.of(term1, term2))
+                .owner(owner)
+                .participants(List.of(participant1))
+                .build();
+
+        var expectedEntity = Room.builder()
+                .id(1L)
+                .title("title")
+                .description("description")
+                .deadline(specificDateTime)
+                .terms(List.of(
+                        TermMapper.mapToEntity(term1),
+                        TermMapper.mapToEntity(term2)))
+                .owner(AttendeeMapper.mapToEntity(owner))
+                .participants(Set.of(
+                        AttendeeMapper.mapToEntity(participant1)))
+                .build();
+
+        //when
+        var actualEntity = RoomMapper.mapToEntity(dto);
+
+        //then
+        assertAll(
+                () -> assertEquals(expectedEntity.getTitle(), actualEntity.getTitle()),
+                () -> assertEquals(expectedEntity.getDescription(), actualEntity.getDescription()),
+                () -> assertEquals(expectedEntity.getDeadline(), actualEntity.getDeadline()),
+                () -> assertEquals(expectedEntity.getOwner(), actualEntity.getOwner()),
+                () -> {
+                    for (Term term : expectedEntity.getTerms()) {
+                        assertThat(actualEntity.getTerms(), hasItem(term));
+                    }
+                },
+                () -> {
+                    for (Attendee participant : expectedEntity.getParticipants()) {
+                        assertThat(actualEntity.getParticipants(), hasItem(participant));
+                    }
+                }
+
+        );
+    }
 }

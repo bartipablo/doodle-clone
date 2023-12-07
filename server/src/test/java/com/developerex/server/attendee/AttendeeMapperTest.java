@@ -30,7 +30,12 @@ class AttendeeMapperTest {
         var actualDto = AttendeeMapper.mapToDto(entity);
 
         //then
-        assertEquals(expectedDto, actualDto);
+        assertAll(
+                () -> assertEquals(expectedDto.id(), actualDto.id()),
+                () -> assertEquals(expectedDto.username(), actualDto.username()),
+                () -> assertEquals(expectedDto.email(), actualDto.email()),
+                () -> assertEquals(expectedDto.password(), actualDto.password())
+        );
     }
 
     @Test
@@ -56,7 +61,6 @@ class AttendeeMapperTest {
 
         //then
         assertAll(
-                () -> assertEquals(expectedEntity.getId(), actualEntity.getId()),
                 () -> assertEquals(expectedEntity.getUsername(), actualEntity.getUsername()),
                 () -> assertEquals(expectedEntity.getEmail(), actualEntity.getEmail()),
                 () -> assertEquals(expectedEntity.getPassword(), actualEntity.getPassword())

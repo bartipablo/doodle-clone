@@ -45,6 +45,12 @@ public class RoomMapper {
                         .map(TermMapper::mapToEntity)
                         .collect(Collectors.toList())
                         : null)
+                .participants(roomDto.participants() != null ?
+                        roomDto.participants()
+                                .stream()
+                                .map(AttendeeMapper::mapToEntity)
+                                .collect(Collectors.toSet())
+                        : null)
                 .build();
     }
 }
