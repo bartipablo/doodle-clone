@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ProtectedRoute from './pages/ProtectedRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Navbar from './components/Navbar';
 
 const router = createBrowserRouter([
     {
@@ -23,6 +24,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <RouterProvider router={router} />
+        <Navbar />
+        <main className="flex flex-1 items-center justify-center">
+            <RouterProvider router={router} />
+        </main>
     </React.StrictMode>
 );

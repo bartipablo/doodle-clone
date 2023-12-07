@@ -1,3 +1,3 @@
-import { atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 
-export const userAtom = atom<string | undefined>(undefined);
+export const userAtom = atomWithStorage<string | undefined>('user', undefined);
