@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,6 +24,8 @@ public class Term {
 
     private LocalDateTime startDateTime;
 
+    @PositiveOrZero(message = "Duration must be positive or zero")
+    @NotNull(message = "Duration must not be null")
     private int duration;
 
     @OneToMany(mappedBy = "term")

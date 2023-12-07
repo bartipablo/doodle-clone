@@ -1,6 +1,7 @@
 package com.developerex.server.attendee.model;
 
 import com.developerex.server.room.model.Room;
+import com.developerex.server.vote.model.Vote;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
@@ -31,6 +32,10 @@ public class Attendee {
     @OneToMany(mappedBy = "owner")
     @JsonBackReference
     private List<Room> ownedRooms;
+
+    @OneToMany(mappedBy = "attendee")
+    @JsonBackReference
+    private List<Vote> votes;
 
     public void addParticipationRoom(Room room) {
         this.participationRooms.add(room);

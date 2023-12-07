@@ -97,15 +97,19 @@ public class ExampleConfiguration {
 
                 voteRepository.save(vote);
 
-                vote.setTerm(term1);
-                voteRepository.save(vote);
+                attendee1.setVotes(List.of(vote));
+                attendeeRepository.save(attendee1);
 
                 term1.addVote(vote);
 
                 termRepository.saveAll(List.of(term1, term2));
+                vote.setTerm(term1);
+                vote.setAttendee(attendee1);
 
                 room.addTerm(term1);
                 room.addTerm(term2);
+
+                voteRepository.save(vote);
 
 //                roomRepository.save(room);
             }
