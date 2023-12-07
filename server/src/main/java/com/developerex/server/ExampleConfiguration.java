@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -83,7 +84,7 @@ public class ExampleConfiguration {
                         .build();
 
                 var term2 = Term.builder()
-                        .startDateTime(LocalDate.now().atStartOfDay())
+                        .startDateTime(LocalDateTime.now().plusHours(1))
                         .duration(60)
                         .votes(new ArrayList<>())
                         .room(room)
