@@ -3,12 +3,21 @@ package com.developerex.server.room;
 import com.developerex.server.attendee.dto.AttendeeDto;
 import com.developerex.server.attendee.mapper.AttendeeMapper;
 import com.developerex.server.room.dto.RoomDto;
+import com.developerex.server.room.dto.RoomInfoDto;
 import com.developerex.server.room.mapper.RoomMapper;
 import com.developerex.server.room.model.Room;
+import com.developerex.server.term.dto.TermDto;
+import com.developerex.server.term.mapper.TermMapper;
+import com.developerex.server.term.model.Term;
+import com.developerex.server.vote.dto.VoteDto;
+import com.developerex.server.vote.mapper.VoteMapper;
+import com.developerex.server.vote.model.Vote;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,12 +65,37 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
-//  TODO: Implement this method
-//    public List<AttendeeDto> getRoomInfo(Long roomId) {
-//        return roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("No room found with id: " + roomId))
-//                .getParticipants()
-//                .stream()
-//                .map(AttendeeMapper::mapToDto)
-//                .collect(Collectors.toList());
-//    }
+    public RoomInfoDto getRoomInfo(Long roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new EntityNotFoundException("No room found with id: " + roomId));
+
+
+        AttendeeDto owner = AttendeeMapper.mapToDto(room.getOwner());
+
+        List<AttendeeDto> participants = room.getParticipants()
+                .stream()
+                .map(AttendeeMapper::mapToDto)
+                .toList();
+
+        HashMap<TermDto, Long> votesPerTerm = new HashMap<>();
+
+        for (Term term : room.getTerms()) {
+            long votesForTermQuantity = term.getVotes().size();
+
+            votesPerTerm.put(TermMapper.mapToDto(term), votesForTermQuantity);
+        }
+
+        List<VoteDto> allVotes = room.getTerms()
+                .stream()
+                .flatMap(term -> term.getVotes().stream())
+                .map(VoteMapper::mapToDto)
+                .toList();
+
+        return RoomInfoDto.builder()
+                .owner(owner)
+                .participants(participants)
+                .votesPerTerm(votesPerTerm)
+                .allVotes(allVotes)
+                .build();
+    }
 }

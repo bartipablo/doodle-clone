@@ -6,11 +6,5 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class VoteServiceTest {
 
-    @Test
-    void getAllVotes() {
-    }
 
-    @Test
-    void addVote() {
-    }
 }

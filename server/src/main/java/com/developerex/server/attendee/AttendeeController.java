@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,7 +28,7 @@ public class AttendeeController {
     }
 
     @PostMapping
-    public ResponseEntity<AttendeeDto> addAttendee(@RequestBody AttendeeDto attendeeDto) {
+    public ResponseEntity<AttendeeDto> addAttendee(@Valid @RequestBody AttendeeDto attendeeDto) {
         if (attendeeService.addAttendee(attendeeDto)){
             return ResponseEntity.ok(attendeeDto);
         }

@@ -6,14 +6,5 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TermServiceTest {
 
-    @Test
-    void getAllTerms() {
 
-    }
-
-
-
-    @Test
-    void addTerm() {
-    }
 }

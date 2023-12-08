@@ -11,6 +11,7 @@ public class TermMapper {
         return TermDto.builder()
                 .startDateTime(term.getStartDateTime())
                 .duration(term.getDuration())
+                .id(term.getId())
                 .build();
     }
 
