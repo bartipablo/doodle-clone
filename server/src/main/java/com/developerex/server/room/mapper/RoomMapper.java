@@ -13,6 +13,7 @@ public class RoomMapper {
 
     public static RoomDto mapToDto(Room room) {
         return RoomDto.builder()
+                .id(room.getId())
                 .title(room.getTitle())
                 .description(room.getDescription())
                 .deadline(room.getDeadline())
@@ -23,10 +24,12 @@ public class RoomMapper {
                         .map(TermMapper::mapToDto)
                         .collect(Collectors.toList())
                         : null)
-                .participants(room.getParticipants()
+                .participants(room.getParticipants() != null
+                        ? room.getParticipants()
                         .stream()
                         .map(AttendeeMapper::mapToDto)
-                        .collect(Collectors.toList()))
+                        .collect(Collectors.toList())
+                        : null)
                 .build();
     }
 
@@ -41,6 +44,12 @@ public class RoomMapper {
                         .stream()
                         .map(TermMapper::mapToEntity)
                         .collect(Collectors.toList())
+                        : null)
+                .participants(roomDto.participants() != null ?
+                        roomDto.participants()
+                                .stream()
+                                .map(AttendeeMapper::mapToEntity)
+                                .collect(Collectors.toSet())
                         : null)
                 .build();
     }

@@ -11,6 +11,7 @@ public class AttendeeMapper  {
                 .email(attendee.getEmail())
                 .username(attendee.getUsername())
                 .password(attendee.getPassword())
+                .id(attendee.getId())
                 .build();
     }
 
