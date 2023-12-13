@@ -29,7 +29,7 @@ const VoteModal: FC<{ id: number; onClose: () => void }> = ({
             body: JSON.stringify({
                 voteType,
                 termId: id,
-                attendeeId: parseInt(userId),
+                attendeeId: +userId!,
             }),
         });
         console.log(res);
@@ -41,12 +41,13 @@ const VoteModal: FC<{ id: number; onClose: () => void }> = ({
             onClick={onClose}
         >
             <div
-                className="flex h-1/2 w-1/2 cursor-auto flex-col items-center justify-center rounded-xl bg-stone-100"
+                className="flex h-1/2 w-1/2 cursor-auto flex-col items-center justify-center rounded-xl bg-stone-100 px-4 py-8"
                 onClick={(e) => e.stopPropagation()}
             >
+                <h1 className="text-4xl font-bold">Vote</h1>
                 <form
                     onSubmit={submitForm}
-                    className="flex h-2/3 flex-col items-center justify-around"
+                    className="flex h-2/3 flex-1 flex-col items-center justify-around"
                 >
                     <div className="grid grid-cols-2 grid-rows-2 gap-8">
                         <fieldset className={`${fieldsetClass}`}>
