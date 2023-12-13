@@ -35,10 +35,12 @@ spotkań.
     ./gradlew bootRun
     ```
 - Client
+    
+    Wymagania: Node: `v20.10.0` lub nowszy
     ```
     cd client
-    npm install/pnpm install/bun install
-    npm run dev/pnpm run dev/bun run dev
+    npm install
+    npm run dev
     ```
 
 ## Milestone 1
