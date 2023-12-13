@@ -34,6 +34,7 @@ const AddTermModal: FC<{ id: number; onClose: () => void }> = ({
             }),
         });
         console.log(res.ok);
+        onClose();
     };
 
     return (

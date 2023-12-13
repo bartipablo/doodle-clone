@@ -95,7 +95,8 @@ const Room = () => {
             {editRoom &&
                 createPortal(
                     <EditRoomModal
-                        id={+id!}
+                        description={description}
+                        title={title}
                         onClose={() => setEditRoom(false)}
                     />,
                     document.querySelector('#modal') as HTMLElement
