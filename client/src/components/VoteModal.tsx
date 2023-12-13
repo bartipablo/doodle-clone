@@ -33,6 +33,7 @@ const VoteModal: FC<{ id: number; onClose: () => void }> = ({
             }),
         });
         console.log(res);
+        onClose();
     };
     return (
         <div
