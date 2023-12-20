@@ -96,6 +96,7 @@ const Room = () => {
                 createPortal(
                     <EditRoomModal
                         description={description}
+                        id={+id!}
                         title={title}
                         onClose={() => setEditRoom(false)}
                     />,

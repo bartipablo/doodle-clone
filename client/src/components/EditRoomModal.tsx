@@ -1,19 +1,36 @@
 import { FC, useState } from 'react';
+import { serverUrl } from '../lib/data';
 
 const fieldsetClass = 'w-96 flex justify-between';
 
 const EditRoomModal: FC<{
     title: string;
     description: string;
+    id: number;
     onClose: () => void;
-}> = ({ title: title_, description: description_, onClose }) => {
+}> = ({ title: title_, description: description_, onClose, id }) => {
     const [title, setTitle] = useState(title_);
     const [description, setDescription] = useState(description_);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // TODO: Endpoint to edit room
-        console.log(title, description);
+        let res = await fetch(`${serverUrl}/api/rooms`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id,
+                title,
+                description,
+            }),
+        });
+
+        if (res.ok) {
+            console.log(await res.json());
+        } else {
+            console.log(await res.text());
+        }
         onClose();
     };
     return (
