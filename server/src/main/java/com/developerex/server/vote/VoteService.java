@@ -40,7 +40,10 @@ public class VoteService {
         }
 
         if (voteRepository.findByAttendeeIdAndTermId(voteDto.getAttendeeId(), voteDto.getTermId()).isPresent()) {
-            return false;
+            Vote vote = (Vote) voteRepository.findByAttendeeIdAndTermId(voteDto.getAttendeeId(), voteDto.getTermId()).orElseThrow(() -> new EntityNotFoundException("No vote found with attendee id: " + voteDto.getAttendeeId() + " and term id: " + voteDto.getTermId()));
+            vote.setVoteType(getVoteType(voteDto.getVoteType()));
+            voteRepository.save(vote);
+            return true;
         }
 
         Vote vote = Vote.builder().voteType(getVoteType(voteDto.getVoteType()))

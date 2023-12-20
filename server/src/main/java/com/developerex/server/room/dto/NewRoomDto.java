@@ -6,7 +6,7 @@ import java.util.List;
 public record NewRoomDto (
     String title,
     String description,
-    LocalDateTime deadline, 
+    LocalDateTime deadline,
     Long owner,
     List<Long> terms,
     List<Long> participants){
