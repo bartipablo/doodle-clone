@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NewVoteDto {
-    private VoteType voteType;
+    private String voteType;
     private Long termId;
     private Long attendeeId;
 }
