@@ -9,6 +9,7 @@ import com.developerex.server.room.dto.RoomDto;
 import com.developerex.server.room.dto.RoomInfoDto;
 import com.developerex.server.room.mapper.RoomMapper;
 import com.developerex.server.room.model.Room;
+import com.developerex.server.term.TermRepository;
 import com.developerex.server.term.dto.TermDto;
 import com.developerex.server.term.mapper.TermMapper;
 import com.developerex.server.term.model.Term;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 public class RoomService {
     private final RoomRepository roomRepository;
     private final AttendeeRepository attendeeRepository;
+    private final TermRepository termRepository;
 
     public List<RoomDto> getAllRooms() {
         return roomRepository.findAll()
@@ -43,8 +45,8 @@ public class RoomService {
                 .title(roomDto.title())
                 .description(roomDto.description())
                 .deadline(roomDto.deadline())
-                .terms(new ArrayList<Term>())
-                .participants(new HashSet<Attendee>())
+                .terms( new ArrayList<Term>())
+                .participants(roomDto.participants().stream().map(attendeeDto -> attendeeRepository.findById(attendeeDto).orElseThrow(() -> new EntityNotFoundException("No attendee found with id: " + attendeeDto))).collect(Collectors.toSet()))
                 .build();
 
         room.setOwner(attendeeRepository.findById(roomDto.owner()).orElseThrow(() -> new EntityNotFoundException("No attendee found with id: " + roomDto.owner())));
