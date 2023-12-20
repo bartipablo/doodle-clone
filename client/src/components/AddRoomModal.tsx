@@ -12,19 +12,17 @@ const AddRoomModal: FC<{
 }> = ({ onClose }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [usersToAdd, setUsersToAdd] = useState<number[]>([]);
+    const [participants, setParticipants] = useState<number[]>([]);
 
-    const day = dayjs(Date.parse(today))
-        .set('hour', +24)
-        .set('minute', +60);
+    const day = today.set('hour', +24).set('minute', +60);
+    //TODO: add deadline
     const [deadline, setDeadline] = useState(day);
-    const [owner, setOwner] = useAtomValue(userAtom);
-    const [usersTermsToAdd, setTermsToAdd] = useState<number[]>([]);
+    const user = useAtomValue(userAtom);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-
+        //TODO: make sure participants does not contain owner
         const res = await fetch(`${serverUrl}/api/rooms/`, {
             method: 'POST',
             headers: {
@@ -34,13 +32,18 @@ const AddRoomModal: FC<{
                 title,
                 description,
                 deadline,
-                owner,
-                usersTermsToAdd,
-                usersToAdd
+                owner: user,
+                usersTermsToAdd: [],
+                participants,
             }),
         });
 
-        console.log(title, description, owner);
+        if (!res.ok) {
+            console.error(await res.text());
+        } else {
+            console.log(await res.json());
+        }
+
         onClose();
     };
     return (
@@ -80,7 +83,7 @@ const AddRoomModal: FC<{
                         <input
                             type="text"
                             onChange={(e) => {
-                                setUsersToAdd(
+                                setParticipants(
                                     e.currentTarget.value
                                         .split(' ')
                                         .map((id) => parseInt(id))
