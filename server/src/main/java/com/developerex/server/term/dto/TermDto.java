@@ -8,5 +8,7 @@ import java.time.LocalDateTime;
 public record TermDto(
         Long id,
         LocalDateTime startDateTime,
-        int duration) {
+        int duration,
+        Long roomId
+        ) {
 }
