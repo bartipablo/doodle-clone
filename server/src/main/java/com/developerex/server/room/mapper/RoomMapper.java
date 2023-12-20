@@ -6,6 +6,7 @@ import com.developerex.server.room.model.Room;
 import com.developerex.server.term.mapper.TermMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,19 +18,22 @@ public class RoomMapper {
                 .title(room.getTitle())
                 .description(room.getDescription())
                 .deadline(room.getDeadline())
-                .owner(AttendeeMapper.mapToDto(room.getOwner()))
-                .terms((room.getTerms() != null)
-                        ? room.getTerms()
-                        .stream()
-                        .map(TermMapper::mapToDto)
-                        .collect(Collectors.toList())
-                        : null)
-                .participants(room.getParticipants() != null
-                        ? room.getParticipants()
-                        .stream()
-                        .map(AttendeeMapper::mapToDto)
-                        .collect(Collectors.toList())
-                        : null)
+                .owner(room.getOwner().getId())
+                .terms(Collections.singletonList(room.getTerms().get(0).getId()))
+                .participants(Collections.singletonList((Long) room.getParticipants().toArray()[0]))
+//                .owner(AttendeeMapper.mapToDto(room.getOwner()))
+//                .terms((room.getTerms() != null)
+//                        ? room.getTerms()
+//                        .stream()
+//                        .map(TermMapper::mapToDto)
+//                        .collect(Collectors.toList())
+//                        : null)
+//                .participants(room.getParticipants() != null
+//                        ? room.getParticipants()
+//                        .stream()
+//                        .map(AttendeeMapper::mapToDto)
+//                        .collect(Collectors.toList())
+//                        : null)
                 .build();
     }
 
@@ -38,19 +42,19 @@ public class RoomMapper {
                 .title(roomDto.title())
                 .description(roomDto.description())
                 .deadline(roomDto.deadline())
-                .owner((roomDto.owner() != null) ? AttendeeMapper.mapToEntity(roomDto.owner()) : null)
-                .terms((roomDto.terms() != null)
-                        ? roomDto.terms()
-                        .stream()
-                        .map(TermMapper::mapToEntity)
-                        .collect(Collectors.toList())
-                        : null)
-                .participants(roomDto.participants() != null ?
-                        roomDto.participants()
-                                .stream()
-                                .map(AttendeeMapper::mapToEntity)
-                                .collect(Collectors.toSet())
-                        : null)
+//                .owner((roomDto.owner() != null) ? AttendeeMapper.mapToEntity(roomDto.owner()) : null)
+//                .terms((roomDto.terms() != null)
+//                        ? roomDto.terms()
+//                        .stream()
+//                        .map(TermMapper::mapToEntity)
+//                        .collect(Collectors.toList())
+//                        : null)
+//                .participants(roomDto.participants() != null ?
+//                        roomDto.participants()
+//                                .stream()
+//                                .map(AttendeeMapper::mapToEntity)
+//                                .collect(Collectors.toSet())
+//                        : null)
                 .build();
     }
 }

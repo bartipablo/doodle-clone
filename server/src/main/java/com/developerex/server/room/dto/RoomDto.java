@@ -13,7 +13,7 @@ public record RoomDto (
     String title,
     String description,
     LocalDateTime deadline,
-    AttendeeDto owner,
-    List<TermDto> terms,
-    List<AttendeeDto> participants){
+    Long owner,
+    List<Long> terms,
+    List<Long> participants){
 }

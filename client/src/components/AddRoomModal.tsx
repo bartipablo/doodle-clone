@@ -1,6 +1,11 @@
 import { FC, useState } from 'react';
+import dayjs from 'dayjs';
+import { serverUrl } from '../lib/data';
+import { userAtom } from '../lib/user';
+import { useAtomValue } from 'jotai';
 
 const fieldsetClass = 'w-96 flex justify-between';
+const today = dayjs(new Date());
 
 const AddRoomModal: FC<{
     onClose: () => void;
@@ -9,9 +14,38 @@ const AddRoomModal: FC<{
     const [description, setDescription] = useState('');
     const [usersToAdd, setUsersToAdd] = useState<number[]>([]);
 
+    const day = dayjs(Date.parse(today))
+        .set('hour', +24)
+        .set('minute', +60);
+    const [deadline, setDeadline] = useState(day);
+    const [owner, setOwner] = useAtomValue(userAtom);
+    const [usersTermsToAdd, setTermsToAdd] = useState<number[]>([]);
+
+
+
+
+
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // TODO: Make request to server
+
+
+
+        const res = await fetch(`${serverUrl}/api/rooms/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title,
+                description,
+                deadline,
+                usersTermsToAdd,
+                owner,
+                usersToAdd
+            }),
+        });
+
         console.log(title, description, usersToAdd);
         onClose();
     };
