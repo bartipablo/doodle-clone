@@ -21,14 +21,8 @@ const AddRoomModal: FC<{
     const [owner, setOwner] = useAtomValue(userAtom);
     const [usersTermsToAdd, setTermsToAdd] = useState<number[]>([]);
 
-
-
-
-
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
 
 
         const res = await fetch(`${serverUrl}/api/rooms/`, {
@@ -40,13 +34,13 @@ const AddRoomModal: FC<{
                 title,
                 description,
                 deadline,
-                usersTermsToAdd,
                 owner,
+                usersTermsToAdd,
                 usersToAdd
             }),
         });
 
-        console.log(title, description, usersToAdd);
+        console.log(title, description, owner);
         onClose();
     };
     return (

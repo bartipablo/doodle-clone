@@ -1,7 +1,10 @@
 package com.developerex.server.room;
 
+import com.developerex.server.attendee.AttendeeRepository;
 import com.developerex.server.attendee.dto.AttendeeDto;
 import com.developerex.server.attendee.mapper.AttendeeMapper;
+import com.developerex.server.attendee.model.Attendee;
+import com.developerex.server.room.dto.NewRoomDto;
 import com.developerex.server.room.dto.RoomDto;
 import com.developerex.server.room.dto.RoomInfoDto;
 import com.developerex.server.room.mapper.RoomMapper;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +29,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RoomService {
     private final RoomRepository roomRepository;
+    private final AttendeeRepository attendeeRepository;
 
     public List<RoomDto> getAllRooms() {
         return roomRepository.findAll()
@@ -33,8 +38,17 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
-    public boolean addRoom(RoomDto roomDto) {
-        Room room = RoomMapper.mapToEntity(roomDto);
+    public boolean addRoom(NewRoomDto roomDto) {
+        Room room = Room.builder()
+                .title(roomDto.title())
+                .description(roomDto.description())
+                .deadline(roomDto.deadline())
+                .terms(new ArrayList<Term>())
+                .participants(new HashSet<Attendee>())
+                .build();
+
+        room.setOwner(attendeeRepository.findById(roomDto.owner()).orElseThrow(() -> new EntityNotFoundException("No attendee found with id: " + roomDto.owner())));
+
         roomRepository.save(room);
         return true;
     }

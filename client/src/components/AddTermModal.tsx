@@ -31,6 +31,7 @@ const AddTermModal: FC<{ id: number; onClose: () => void }> = ({
             body: JSON.stringify({
                 startDateTime: day.toISOString(),
                 duration,
+                roomId: id,
             }),
         });
         console.log(res.ok);

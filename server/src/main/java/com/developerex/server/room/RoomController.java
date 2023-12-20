@@ -1,6 +1,7 @@
 package com.developerex.server.room;
 
 import com.developerex.server.attendee.dto.AttendeeDto;
+import com.developerex.server.room.dto.NewRoomDto;
 import com.developerex.server.room.dto.RoomDto;
 import com.developerex.server.room.dto.RoomInfoDto;
 import lombok.AllArgsConstructor;
@@ -56,7 +57,7 @@ public class RoomController {
     }
 
     @PostMapping
-    public ResponseEntity<RoomDto> addRoom(@Valid @RequestBody RoomDto roomDto) {
+    public ResponseEntity<NewRoomDto> addRoom(@Valid @RequestBody NewRoomDto roomDto) {
         if (roomService.addRoom(roomDto)){
             return ResponseEntity.ok(roomDto);
         }
