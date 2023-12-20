@@ -4,6 +4,7 @@ import com.developerex.server.attendee.AttendeeRepository;
 import com.developerex.server.attendee.dto.AttendeeDto;
 import com.developerex.server.attendee.mapper.AttendeeMapper;
 import com.developerex.server.attendee.model.Attendee;
+import com.developerex.server.room.dto.EditRoomDto;
 import com.developerex.server.room.dto.NewRoomDto;
 import com.developerex.server.room.dto.RoomDto;
 import com.developerex.server.room.dto.RoomInfoDto;
@@ -113,5 +114,17 @@ public class RoomService {
                 .votesPerTerm(votesPerTerm)
                 .allVotes(allVotes)
                 .build();
+    }
+
+    public EditRoomDto editRoom(EditRoomDto data) {
+        Room room = roomRepository.findById(data.id())
+                .orElseThrow(() -> new EntityNotFoundException("No room found with id: " + data.id()));
+
+        room.setTitle(data.title());
+        room.setDescription(data.description());
+        room.setDeadline(data.deadline());
+        roomRepository.save(room);
+
+        return data;
     }
 }
