@@ -57,7 +57,7 @@ public class ExampleConfiguration {
                 var room = Room.builder()
                         .title("Example title 1")
                         .description("Example description 1")
-                        .deadline(LocalDate.now().atStartOfDay())
+                        .deadline(LocalDate.now().atStartOfDay().plusDays(20))
                         .terms(new ArrayList<>())
                         .participants(new HashSet<>())
                         .owner(attendee2)

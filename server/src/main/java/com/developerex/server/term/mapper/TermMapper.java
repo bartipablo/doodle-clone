@@ -21,4 +21,5 @@ public class TermMapper {
                 .duration(termDto.duration())
                 .build();
     }
+    
 }

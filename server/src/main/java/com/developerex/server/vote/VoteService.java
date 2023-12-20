@@ -8,6 +8,7 @@ import com.developerex.server.vote.dto.NewVoteDto;
 import com.developerex.server.vote.dto.VoteDto;
 import com.developerex.server.vote.mapper.VoteMapper;
 import com.developerex.server.vote.model.Vote;
+import com.developerex.server.vote.model.VoteType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,19 +33,39 @@ public class VoteService {
     }
 
     public boolean addVote(NewVoteDto voteDto) {
-        LocalDateTime term = roomRepository.findById(termRepository.findById(voteDto.getTermId()).orElseThrow().getRoom().getId()).orElseThrow(() -> new EntityNotFoundException("No room found")).getDeadline();
+        LocalDateTime roomDeadline = roomRepository.findById(termRepository.findById(voteDto.getTermId()).orElseThrow().getRoom().getId()).orElseThrow(() -> new EntityNotFoundException("No room found")).getDeadline();
 
-        if (term.isBefore(LocalDateTime.now())) {
+        if (roomDeadline.isBefore(LocalDateTime.now())) {
             return false;
         }
 
-        Vote vote = Vote.builder().voteType(voteDto.getVoteType())
+        if (voteRepository.findByAttendeeIdAndTermId(voteDto.getAttendeeId(), voteDto.getTermId()).isPresent()) {
+            return false;
+        }
+
+        Vote vote = Vote.builder().voteType(getVoteType(voteDto.getVoteType()))
                 .attendee(attendeeRepository.findById(voteDto.getAttendeeId()).orElseThrow(() -> new EntityNotFoundException("No attendee found with id: " + voteDto.getAttendeeId())))
                 .term(termRepository.findById(voteDto.getTermId()).orElseThrow(() -> new EntityNotFoundException("No term found with id: " + voteDto.getTermId()))).build();
+
 
         voteRepository.save(vote);
 
         return true;
+    }
+
+    private static VoteType getVoteType(String voteType){
+        switch (voteType){
+            case "AVAILABLE":
+                return VoteType.AVAILABLE;
+            case "NOT_AVAILABLE":
+                return VoteType.NOT_AVAILABLE;
+            case "MAYBE":
+                return VoteType.MAYBE;
+            case "PENDING":
+                return VoteType.PENDING;
+            default:
+                return null;
+        }
     }
 
     public boolean stopVoting(Long roomId) {
