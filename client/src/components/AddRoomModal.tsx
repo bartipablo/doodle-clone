@@ -34,7 +34,7 @@ const AddRoomModal: FC<{
                 deadline,
                 owner: user,
                 usersTermsToAdd: [],
-                participants,
+                participants: participants.filter((e) => e != +user!),
             }),
         });
 
