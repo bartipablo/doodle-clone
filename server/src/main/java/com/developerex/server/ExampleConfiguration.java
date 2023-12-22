@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -56,7 +57,7 @@ public class ExampleConfiguration {
                 var room = Room.builder()
                         .title("Example title 1")
                         .description("Example description 1")
-                        .deadline(LocalDate.now().atStartOfDay())
+                        .deadline(LocalDate.now().atStartOfDay().plusDays(20))
                         .terms(new ArrayList<>())
                         .participants(new HashSet<>())
                         .owner(attendee2)
@@ -83,7 +84,7 @@ public class ExampleConfiguration {
                         .build();
 
                 var term2 = Term.builder()
-                        .startDateTime(LocalDate.now().atStartOfDay())
+                        .startDateTime(LocalDateTime.now().plusHours(1))
                         .duration(60)
                         .votes(new ArrayList<>())
                         .room(room)
@@ -97,15 +98,19 @@ public class ExampleConfiguration {
 
                 voteRepository.save(vote);
 
-                vote.setTerm(term1);
-                voteRepository.save(vote);
+                attendee1.setVotes(List.of(vote));
+                attendeeRepository.save(attendee1);
 
                 term1.addVote(vote);
 
                 termRepository.saveAll(List.of(term1, term2));
+                vote.setTerm(term1);
+                vote.setAttendee(attendee1);
 
                 room.addTerm(term1);
                 room.addTerm(term2);
+
+                voteRepository.save(vote);
 
 //                roomRepository.save(room);
             }

@@ -5,6 +5,7 @@ import lombok.Builder;
 
 @Builder
 public record AttendeeDto(
+        Long id,
      String username,
      String email,
      String password

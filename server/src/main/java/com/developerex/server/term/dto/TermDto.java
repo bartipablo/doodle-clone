@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 
 @Builder
 public record TermDto(
+        Long id,
         LocalDateTime startDateTime,
-        int duration) {
+        int duration,
+        Long roomId
+        ) {
 }
