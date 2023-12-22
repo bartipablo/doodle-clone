@@ -6,6 +6,7 @@ import com.developerex.server.room.model.Room;
 import com.developerex.server.term.mapper.TermMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 @Service
