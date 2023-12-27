@@ -35,10 +35,12 @@ spotkań.
     ./gradlew bootRun
     ```
 - Client
+    
+    Wymagania: Node: `v20.10.0` lub nowszy. Upewnić się, że w pliku `src/lib/data.ts` jest poprawny adres (w szczególności port) serwera.
     ```
     cd client
-    npm install/pnpm install/bun install
-    npm run dev/pnpm run dev/bun run dev
+    npm install
+    npm run dev
     ```
 
 ## Milestone 1

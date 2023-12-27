@@ -1,58 +1,104 @@
-import { FC, useRef, useState } from 'react';
+import { useAtomValue } from 'jotai';
+import { FC, useState } from 'react';
+import { userAtom } from '../lib/user';
+import { serverUrl } from '../lib/data';
+
+const fieldsetClass =
+    'flex flex-col italic text-neutral-700 justify-center items-center text-xl';
+const inputClass = 'aspect-square w-6';
 
 const VoteModal: FC<{ id: number; onClose: () => void }> = ({
     id,
     onClose,
 }) => {
+    const userId = useAtomValue(userAtom);
     const [voteType, setVoteType] = useState<string>('AVAILABLE');
 
     const handleVote = (e: React.ChangeEvent<HTMLInputElement>) => {
         setVoteType(e.target.value);
     };
 
-    const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
-        e.stopPropagation();
+    const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        // FIXME: nie dziala
+        const res = await fetch(`${serverUrl}/api/votes/add-vote`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                voteType,
+                termId: id,
+                attendeeId: +userId!,
+            }),
+        });
+        console.log(res);
+        onClose();
     };
     return (
         <div
-            className="absolute flex h-screen w-screen cursor-pointer items-center justify-center bg-stone-800 bg-opacity-50"
+            className="absolute flex h-screen w-screen cursor-pointer items-center justify-center bg-stone-800 bg-opacity-95"
             onClick={onClose}
         >
             <div
-                className="h-1/2 w-1/2 cursor-auto rounded-xl bg-stone-100"
+                className="flex h-1/2 w-1/2 cursor-auto flex-col items-center justify-center rounded-xl bg-stone-100 px-4 py-8"
                 onClick={(e) => e.stopPropagation()}
             >
-                <form onSubmit={submitForm}>
-                    <input
-                        onChange={handleVote}
-                        type="radio"
-                        name="type"
-                        value="AVAILABLE"
-                        checked={voteType === 'AVAILABLE'}
-                    ></input>
-                    <input
-                        onChange={handleVote}
-                        type="radio"
-                        name="type"
-                        value="NOT_AVAILABLE"
-                        checked={voteType === 'NOT_AVAILABLE'}
-                    ></input>
-                    <input
-                        onChange={handleVote}
-                        type="radio"
-                        name="type"
-                        value="MAYBE"
-                        checked={voteType === 'MAYBE'}
-                    ></input>
-                    <input
-                        onChange={handleVote}
-                        type="radio"
-                        name="type"
-                        value="PENDING"
-                        checked={voteType === 'PENDING'}
-                    ></input>
+                <h1 className="text-4xl font-bold">Vote</h1>
+                <form
+                    onSubmit={submitForm}
+                    className="flex h-2/3 flex-1 flex-col items-center justify-around"
+                >
+                    <div className="grid grid-cols-2 grid-rows-2 gap-8">
+                        <fieldset className={`${fieldsetClass}`}>
+                            <input
+                                onChange={handleVote}
+                                type="radio"
+                                name="type"
+                                value="AVAILABLE"
+                                className={`accent-emerald-600 ${inputClass}`}
+                                checked={voteType === 'AVAILABLE'}
+                            ></input>
+                            <label>Available</label>
+                        </fieldset>
+                        <fieldset className={`${fieldsetClass}`}>
+                            <input
+                                onChange={handleVote}
+                                type="radio"
+                                name="type"
+                                value="NOT_AVAILABLE"
+                                className={`accent-rose-600 ${inputClass}`}
+                                checked={voteType === 'NOT_AVAILABLE'}
+                            ></input>
+                            <label>Not Available</label>
+                        </fieldset>
+                        <fieldset className={`${fieldsetClass}`}>
+                            <input
+                                onChange={handleVote}
+                                type="radio"
+                                name="type"
+                                value="MAYBE"
+                                className={`accent-amber-600 ${inputClass}`}
+                                checked={voteType === 'MAYBE'}
+                            ></input>
+                            <label>Maybe</label>
+                        </fieldset>
+                        <fieldset className={`${fieldsetClass}`}>
+                            <input
+                                onChange={handleVote}
+                                type="radio"
+                                name="type"
+                                value="PENDING"
+                                className={`accent-orange-600 ${inputClass}`}
+                                checked={voteType === 'PENDING'}
+                            ></input>
+                            <label>Pending</label>
+                        </fieldset>
+                    </div>
+                    <button className="mt-2 w-32 rounded-full bg-emerald-500 py-2 font-bold text-white">
+                        Send Vote
+                    </button>
                 </form>
-                {voteType}
             </div>
         </div>
     );

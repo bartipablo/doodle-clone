@@ -2,6 +2,7 @@ package com.developerex.server.room.dto;
 
 import com.developerex.server.attendee.dto.AttendeeDto;
 import com.developerex.server.term.dto.TermDto;
+import com.developerex.server.term.model.Term;
 import lombok.Builder;
 
 import java.time.LocalDateTime;

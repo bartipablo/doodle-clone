@@ -1,11 +1,14 @@
 package com.developerex.server.term;
 
+import com.developerex.server.room.RoomRepository;
+import com.developerex.server.room.model.Room;
 import com.developerex.server.term.dto.TermDto;
 import com.developerex.server.term.mapper.TermMapper;
 import com.developerex.server.term.model.Term;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TermService {
     private final TermRepository termRepository;
+    private final RoomRepository roomRepository;
 
     @Transactional
     public List<TermDto> getAllTerms() {
@@ -26,9 +30,18 @@ public class TermService {
     @Transactional
     public TermDto addTerm(TermDto termDto) {
         Term term = TermMapper.mapToEntity(termDto);
-        termRepository.save(term);
-        // set id field in record
+        Room room = roomRepository.findById(termDto.roomId()).orElseThrow(() -> new EntityNotFoundException("No room found with id: " + termDto.roomId()));
+        term.setRoom(room);
 
+        // check if terms overlap
+        List<Term> terms = termRepository.findAllByRoomId(termDto.roomId());
+        for (Term t : terms) {
+            if (t.getStartDateTime().isEqual(term.getStartDateTime()) && t.getStartDateTime().plusMinutes(t.getDuration()).isEqual(term.getStartDateTime().plusMinutes(term.getDuration()))) {
+                return null;
+            }
+        }
+
+        termRepository.save(term);
 
         return termDto;
     }

@@ -4,10 +4,13 @@ import { serverUrl } from '../lib/data';
 import { useQuery } from '@tanstack/react-query';
 import RoomThumbnail from '../components/RoomThumbnail';
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+import AddRoomModal from '../components/AddRoomModal';
 
 const Home = () => {
     const user = useAtomValue(userAtom);
     const [data, setData] = useState<any[]>([]);
+    const [showModal, setShowModal] = useState(false);
 
     // TODO: Fix types
     const queryRooms = async ({ queryKey }: { queryKey: any }) => {
@@ -37,14 +40,29 @@ const Home = () => {
     if (queryOne.error || queryTwo.error) return <p>Error :(</p>;
 
     return (
-        <div className="w-1/2">
-            <p className="mb-4 text-3xl font-bold">Your rooms:</p>
-            <ul>
-                {data.map((room: any) => (
-                    <RoomThumbnail room={room} key={room.id} />
-                ))}
-            </ul>
-        </div>
+        <>
+            <div className="w-1/2">
+                <div className="flex items-center justify-between">
+                    <p className="mb-4 text-3xl font-bold">Your rooms:</p>
+                    <button
+                        className="rounded-full bg-emerald-500 px-4 py-2 font-semibold text-white"
+                        onClick={() => setShowModal(true)}
+                    >
+                        Create Room
+                    </button>
+                </div>
+                <ul>
+                    {data.map((room: any) => (
+                        <RoomThumbnail room={room} key={room.id} />
+                    ))}
+                </ul>
+            </div>
+            {showModal &&
+                createPortal(
+                    <AddRoomModal onClose={() => setShowModal(false)} />,
+                    document.querySelector('#modal') as HTMLElement
+                )}
+        </>
     );
 };
 
