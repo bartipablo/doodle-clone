@@ -43,7 +43,7 @@ const Home = () => {
 
     return (
         <>
-            <Card className="w-1/2">
+            <Card className="w-1/2 border-0">
                 <CardHeader className="flex-row items-center justify-between">
                     <p className="text-3xl font-bold">Your rooms</p>
                     <Button onClick={() => setShowModal(true)}>

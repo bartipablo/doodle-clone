@@ -15,7 +15,7 @@ const RoomThumbnail: FC<any> = ({ room }) => {
     return (
         <li>
             <Link to={`/room/${room.id}`}>
-                <Card className="flex flex-row items-center justify-between">
+                <Card className="mb-4 flex flex-row items-center justify-between">
                     <CardHeader>
                         <CardTitle>{room.title}</CardTitle>
                         <CardDescription>{room.description}</CardDescription>
