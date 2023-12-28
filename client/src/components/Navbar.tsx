@@ -2,6 +2,7 @@ import { useAtom } from 'jotai';
 import { userAtom } from '../lib/user';
 import { Link } from 'react-router-dom';
 import { ModeToggle } from './mode-toggle';
+import { Button, buttonVariants } from './ui/button';
 
 const Navbar = () => {
     const [user, setUser] = useAtom(userAtom);
@@ -10,7 +11,12 @@ const Navbar = () => {
             <span className="text-xl font-semibold">Doodle</span>
             <ul className="flex items-center gap-6 font-medium">
                 <li>
-                    <Link to="/">Home</Link>
+                    <Link
+                        to="/"
+                        className={buttonVariants({ variant: 'link' })}
+                    >
+                        Home
+                    </Link>
                 </li>
                 {user == undefined && (
                     <li>
@@ -19,13 +25,14 @@ const Navbar = () => {
                 )}
                 {user != undefined && (
                     <li>
-                        <button
+                        <Button
+                            variant="outline"
                             onClick={() => {
                                 setUser(undefined);
                             }}
                         >
                             Logout
-                        </button>
+                        </Button>
                     </li>
                 )}
                 <li>
