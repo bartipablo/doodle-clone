@@ -1,8 +1,9 @@
 import { FC } from 'react';
-import { type Term } from './CalendarTerm';
+import { type Term as TermType } from './CalendarTerm';
 import { CardDescription, CardTitle } from './ui/card';
+import Term from '@/components/Term';
 
-const CalendarWeek: FC<{ terms: Term[] }> = ({ terms }) => {
+const CalendarWeek: FC<{ terms: TermType[] }> = ({ terms }) => {
     if (terms.length === 0) {
         return (
             <div
@@ -36,7 +37,7 @@ const CalendarWeek: FC<{ terms: Term[] }> = ({ terms }) => {
     return (
         <div className="relative h-[60vh] overflow-x-hidden overflow-y-scroll">
             <div
-                className="scrollbar sticky left-0 top-0 z-10 grid w-full bg-white dark:bg-neutral-950"
+                className="scrollbar sticky left-0 top-0 z-[3] grid w-full bg-white dark:bg-neutral-950"
                 style={{
                     gridTemplateColumns: `1fr 1fr repeat(7, 3fr)`,
                 }}
@@ -85,8 +86,8 @@ const CalendarWeek: FC<{ terms: Term[] }> = ({ terms }) => {
                     (i) => {
                         return (
                             <CardDescription
-                                className="relative col-start-2 text-right 
-                                after:absolute after:left-1/2 after:-z-[0]
+                                className="after:z-1 relative col-start-2 
+                                text-right after:absolute after:left-1/2
                                 after:h-full after:w-[9000px] after:border-b-[1px] after:dark:border-neutral-800"
                                 style={{ gridRow: 1 + i }}
                                 key={i}
@@ -97,34 +98,9 @@ const CalendarWeek: FC<{ terms: Term[] }> = ({ terms }) => {
                     }
                 )}
 
-                {terms.map((term) => {
-                    const hour = term.startDateTime.get('hour');
-                    let minute = term.startDateTime.get('minute');
-                    if (minute < 15) {
-                        minute = 0;
-                    } else if (minute < 30) {
-                        minute = 1;
-                    } else if (minute < 45) {
-                        minute = 2;
-                    } else if (minute < 60) {
-                        minute = 3;
-                    }
-                    const duration = term.duration / 15;
-                    const column = term.startDateTime.diff(monday, 'day') + 1;
-                    return (
-                        <p
-                            key={`${hour}${minute}${duration}`}
-                            style={{
-                                gridRow: 1 + hour * 4 + minute,
-                                gridRowEnd: 1 + hour * 4 + minute + duration,
-                                gridColumn: column,
-                            }}
-                            className="z-10 mt-[2px] border-2"
-                        >
-                            lol
-                        </p>
-                    );
-                })}
+                {terms.map((term) => (
+                    <Term term={term} monday={monday} minHour={minHour} />
+                ))}
             </div>
         </div>
     );

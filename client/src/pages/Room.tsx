@@ -115,29 +115,6 @@ const Room = () => {
                 )}
         </>
     );
-    return (
-        <>
-            <div className="flex w-3/4 flex-col"></div>
-            {editRoom &&
-                createPortal(
-                    <EditRoomModal
-                        description={description}
-                        id={+id!}
-                        title={title}
-                        onClose={() => setEditRoom(false)}
-                    />,
-                    document.querySelector('#modal') as HTMLElement
-                )}
-            {addTerm &&
-                createPortal(
-                    <AddTermModal
-                        id={+id!}
-                        onClose={() => setAddTerm(false)}
-                    />,
-                    document.querySelector('#modal') as HTMLElement
-                )}
-        </>
-    );
 };
 
 export default Room;

@@ -4,13 +4,11 @@ import dayjs from 'dayjs';
 import {
     Pagination,
     PaginationContent,
-    PaginationEllipsis,
     PaginationItem,
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
 } from './ui/pagination';
-import { string } from 'zod';
 import { Card, CardContent, CardFooter } from './ui/card';
 import CalendarWeek from './CalendarWeek';
 
@@ -53,7 +51,7 @@ const CalendarTerm: FC<{ terms: Term_[] }> = ({ terms: terms_ }) => {
     }, []);
 
     return (
-        <Card className="border-0">
+        <Card className="border-0 shadow-none">
             <CardContent>
                 <CalendarWeek
                     terms={weeks.length > 0 ? weeks[curWeek].terms : []}

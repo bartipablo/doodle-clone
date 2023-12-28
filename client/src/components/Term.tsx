@@ -1,24 +1,41 @@
 import { FC, useState } from 'react';
-import { Term as TermType } from '../lib/response';
+import { Term as TermType } from './CalendarTerm';
 import dayjs from 'dayjs';
 import { createPortal } from 'react-dom';
 import VoteModal from './VoteModal';
+import { Card, CardDescription } from './ui/card';
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from './ui/card';
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+    TooltipProvider,
+} from './ui/tooltip';
 
-const Term: FC<{ term: TermType }> = ({ term }) => {
+const Term: FC<{ term: TermType; monday: dayjs.Dayjs; minHour: number }> = ({
+    term,
+    monday,
+    minHour,
+}) => {
     const [showModal, setShowModal] = useState(false);
 
     const startTime = dayjs(term.startDateTime);
     const endTime = startTime.add(term.duration, 'm');
-    const startDate = startTime.format('DD.MM.YYYY');
     const startHour = startTime.format('HH:mm');
     const endHour = endTime.format('HH:mm');
+
+    const hour = term.startDateTime.get('hour');
+    let minute = term.startDateTime.get('minute');
+    if (minute < 15) {
+        minute = 0;
+    } else if (minute < 30) {
+        minute = 1;
+    } else if (minute < 45) {
+        minute = 2;
+    } else if (minute < 60) {
+        minute = 3;
+    }
+    const duration = term.duration / 15;
+    const column = term.startDateTime.diff(monday, 'day') + 1;
 
     const available = term.votes.filter((v) => v === 'AVAILABLE').length;
     const notAvailable = term.votes.filter((v) => v === 'NOT_AVAILABLE').length;
@@ -27,28 +44,36 @@ const Term: FC<{ term: TermType }> = ({ term }) => {
 
     return (
         <>
-            <Card
-                className="flex flex-col items-center rounded bg-gray-200 px-2 py-4 text-xl font-medium"
-                onClick={() => setShowModal(true)}
-            >
-                <CardHeader>
-                    <CardTitle>{startDate}</CardTitle>
-                    <CardDescription className="flex justify-between">
-                        <span className="">{startHour}</span>
-                        <span className="text-md">-</span>
-                        <span className="">{endHour}</span>
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="flex items-center gap-1 text-sm">
-                    <span className="text-lg text-emerald-600">
-                        {available}
-                    </span>
-                    /
-                    <span className="text-lg text-red-600">{notAvailable}</span>
-                    /<span className="text-lg text-amber-600">{maybe}</span>/
-                    <span className="text-lg text-yellow-500">{pending}</span>
-                </CardContent>
-            </Card>
+            <TooltipProvider>
+                <Tooltip>
+                    <TooltipTrigger
+                        className="z-[2] mx-4 my-1 "
+                        style={{
+                            gridRow: 1 + (hour - minHour) * 4 + minute,
+                            gridRowEnd:
+                                1 + (hour - minHour) * 4 + minute + duration,
+                            gridColumn: column,
+                        }}
+                    >
+                        <Card
+                            className="flex h-full w-full flex-col items-center justify-center rounded bg-emerald-100 font-medium dark:bg-emerald-900"
+                            onClick={() => setShowModal(true)}
+                        >
+                            <CardDescription className="flex justify-between">
+                                <span className="">{startHour}</span>
+                                <span className="text-md">-</span>
+                                <span className="">{endHour}</span>
+                            </CardDescription>
+                        </Card>
+                    </TooltipTrigger>
+                    <TooltipContent className="text-base font-semibold">
+                        <p>Available: {available}</p>
+                        <p>Not Available: {notAvailable}</p>
+                        <p>Maybe: {maybe}</p>
+                        <p>Pending: {pending}</p>
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
             {showModal &&
                 createPortal(
                     <VoteModal
