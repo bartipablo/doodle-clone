@@ -63,7 +63,7 @@ const Room = () => {
     });
     return (
         <>
-            <Card className="w-3/4 border-0">
+            <Card className="w-3/4 border-0 shadow-none">
                 <CardHeader className="flex-row justify-between">
                     <div>
                         <CardTitle className="text-3xl">{title}</CardTitle>

@@ -6,7 +6,7 @@ import RoomThumbnail from '../components/RoomThumbnail';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import AddRoomModal from '../components/AddRoomModal';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
 const Home = () => {
@@ -43,9 +43,9 @@ const Home = () => {
 
     return (
         <>
-            <Card className="w-1/2 border-0">
+            <Card className="w-1/2 border-0 shadow-none">
                 <CardHeader className="flex-row items-center justify-between">
-                    <p className="text-3xl font-bold">Your rooms</p>
+                    <CardTitle className="text-3xl">Your rooms</CardTitle>
                     <Button onClick={() => setShowModal(true)}>
                         Create Room
                     </Button>
