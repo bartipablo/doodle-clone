@@ -20,7 +20,12 @@ const Navbar = () => {
                 </li>
                 {user == undefined && (
                     <li>
-                        <a href="/login">Login</a>
+                        <a
+                            href="/login"
+                            className={buttonVariants({ variant: 'outline' })}
+                        >
+                            Login
+                        </a>
                     </li>
                 )}
                 {user != undefined && (
