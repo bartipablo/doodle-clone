@@ -9,6 +9,14 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import EditRoomModal from '../components/EditRoomModal';
 import AddTermModal from '../components/AddTermModal';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 const Room = () => {
     const { id } = useParams();
@@ -55,43 +63,63 @@ const Room = () => {
     });
     return (
         <>
-            <div className="flex w-3/4 flex-col">
-                <div className="flex items-center justify-between">
+            <Card className="w-3/4 border-0">
+                <CardHeader className="flex-row justify-between">
                     <div>
-                        <h1 className="text-4xl font-semibold">{title}</h1>
-                        <p className="mt-1 text-2xl font-normal text-slate-800">
+                        <CardTitle className="text-3xl">{title}</CardTitle>
+                        <CardDescription className="text-xl">
                             {description}
-                        </p>
+                        </CardDescription>
                     </div>
                     <div className="flex items-center gap-4">
                         {userId == owner.id && (
                             <>
-                                <button
-                                    className="rounded-full border-2 border-black px-3 py-1 font-semibold"
+                                <Button
                                     onClick={() => setEditRoom(true)}
+                                    variant="outline"
                                 >
                                     Edit room
-                                </button>
-                                <button
-                                    className="rounded-full bg-emerald-500 px-3 py-1 font-semibold text-white"
-                                    onClick={() => setAddTerm(true)}
-                                >
+                                </Button>
+                                <Button onClick={() => setAddTerm(true)}>
                                     Add term
-                                </button>
+                                </Button>
                             </>
                         )}
                         <p>
                             Owner: {userId == owner.id ? `You` : owner.username}
                         </p>
                     </div>
-                </div>
-                <div className="grid flex-1 grid-cols-5 grid-rows-3 gap-6 p-4">
+                </CardHeader>
+                <CardContent className="grid flex-1 grid-cols-5 grid-rows-3 gap-6 p-4">
                     {/* TERMS  */}
                     {terms.map((term: any) => (
                         <Term key={term.id} term={term} />
                     ))}
-                </div>
-            </div>
+                </CardContent>
+            </Card>
+            {editRoom &&
+                createPortal(
+                    <EditRoomModal
+                        description={description}
+                        id={+id!}
+                        title={title}
+                        onClose={() => setEditRoom(false)}
+                    />,
+                    document.querySelector('#modal') as HTMLElement
+                )}
+            {addTerm &&
+                createPortal(
+                    <AddTermModal
+                        id={+id!}
+                        onClose={() => setAddTerm(false)}
+                    />,
+                    document.querySelector('#modal') as HTMLElement
+                )}
+        </>
+    );
+    return (
+        <>
+            <div className="flex w-3/4 flex-col"></div>
             {editRoom &&
                 createPortal(
                     <EditRoomModal
