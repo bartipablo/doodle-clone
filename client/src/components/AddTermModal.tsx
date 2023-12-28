@@ -20,7 +20,7 @@ import {
     SelectValue,
 } from './ui/select';
 
-const today = dayjs(new Date()).set('minute', 0);
+const today = dayjs().startOf('hour');
 
 const AddTermModal: FC<{ id: number; onClose: () => void }> = ({
     id,
