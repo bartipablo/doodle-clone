@@ -1,23 +1,101 @@
-import { FC } from 'react';
-import { Term } from '@/lib/response';
+import { FC, useEffect, useState } from 'react';
+import { Term as Term_ } from '@/lib/response';
 import dayjs from 'dayjs';
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from './ui/pagination';
+import { string } from 'zod';
+import { Card, CardContent, CardFooter } from './ui/card';
+import CalendarWeek from './CalendarWeek';
 
-const CalendarTerm: FC<{ terms: Term[] }> = ({ terms: terms_ }) => {
-    const terms = terms_.map((term) => {
-        return { ...term, startDateTime: dayjs(term.startDateTime) };
-    });
-    terms.sort((a, b) => (a.startDateTime.isAfter(b.startDateTime) ? 1 : -1));
-    const start = terms[0].startDateTime;
-    let weeks = new Map<string, any>();
-    terms.forEach((term) => {
-        const monday = term.startDateTime.startOf('week').add(2, 'day');
-        if (weeks.get(monday.toString()) === undefined) {
-            weeks.set(monday.toString(), []);
-        }
-        weeks.get(monday.toString()).push(term);
-    });
-    console.log(weeks);
-    return <></>;
+type Term = {
+    startDateTime: dayjs.Dayjs;
+    id: number;
+    duration: number;
+    votes: ('AVAILABLE' | 'NOT_AVAILABLE' | 'MAYBE' | 'PENDING')[];
 };
 
-export default CalendarTerm;
+const CalendarTerm: FC<{ terms: Term_[] }> = ({ terms: terms_ }) => {
+    const [curWeek, setCurWeek] = useState(0);
+    const [weeks, setWeeks] = useState<{ start: string; terms: Term[] }[]>([]);
+    const [maxWeek, setMaxWeek] = useState(0);
+    const [availableWeeks, setAvailableWeeks] = useState<number[]>([]);
+
+    useEffect(() => {
+        const terms = terms_.map((term) => {
+            return { ...term, startDateTime: dayjs(term.startDateTime) };
+        });
+
+        let weeks_ = new Map<string, Term[]>();
+        terms.forEach((term) => {
+            const monday = term.startDateTime.startOf('week').add(2, 'day');
+            if (weeks_.get(monday.toString()) === undefined) {
+                weeks_.set(monday.toString(), [term]);
+            } else {
+                weeks_.get(monday.toString())!.push(term);
+            }
+        });
+        const weeksTmp = Array.from(weeks_.entries()).map(([key, value]) => {
+            return { start: key, terms: value };
+        });
+        weeksTmp.sort((a, b) =>
+            dayjs(a.start).isAfter(dayjs(b.start)) ? 1 : -1
+        );
+        setWeeks(weeksTmp);
+        setMaxWeek(weeksTmp.length);
+        setAvailableWeeks([...Array(weeksTmp.length).keys()]);
+    }, []);
+
+    return (
+        <Card className="border-0">
+            <CardContent>
+                <CalendarWeek
+                    terms={weeks.length > 0 ? weeks[curWeek].terms : []}
+                />
+            </CardContent>
+            <CardFooter>
+                <Pagination>
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious
+                                href="#"
+                                onClick={() =>
+                                    setCurWeek(Math.max(curWeek - 1, 0))
+                                }
+                            />
+                        </PaginationItem>
+                        {availableWeeks.map((week) => (
+                            <PaginationItem key={week}>
+                                <PaginationLink
+                                    href="#"
+                                    onClick={() => setCurWeek(week)}
+                                    isActive={curWeek === week}
+                                >
+                                    {week + 1}
+                                </PaginationLink>
+                            </PaginationItem>
+                        ))}
+                        <PaginationItem>
+                            <PaginationNext
+                                href="#"
+                                onClick={() =>
+                                    setCurWeek(
+                                        Math.min(curWeek + 1, maxWeek - 1)
+                                    )
+                                }
+                            />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
+            </CardFooter>
+        </Card>
+    );
+};
+
+export { CalendarTerm, type Term };

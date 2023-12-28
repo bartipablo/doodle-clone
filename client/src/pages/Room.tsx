@@ -16,7 +16,7 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import CalendarTerm from '@/components/CalendarTerm';
+import { CalendarTerm } from '@/components/CalendarTerm';
 
 const Room = () => {
     const { id } = useParams();
@@ -90,7 +90,7 @@ const Room = () => {
                         </p>
                     </div>
                 </CardHeader>
-                <CardContent className="grid flex-1 grid-cols-5 grid-rows-3 gap-6 p-4">
+                <CardContent className="flex-1 p-4">
                     {/* TERMS  */}
                     <CalendarTerm terms={terms} />
                 </CardContent>
