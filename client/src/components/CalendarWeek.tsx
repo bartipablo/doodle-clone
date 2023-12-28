@@ -34,9 +34,9 @@ const CalendarWeek: FC<{ terms: Term[] }> = ({ terms }) => {
     );
 
     return (
-        <div className="relative h-[60vh] overflow-y-scroll">
+        <div className="relative h-[60vh] overflow-x-hidden overflow-y-scroll">
             <div
-                className="absolute sticky left-0 top-0 z-10 grid w-full bg-white dark:bg-neutral-950"
+                className="scrollbar sticky left-0 top-0 z-10 grid w-full bg-white dark:bg-neutral-950"
                 style={{
                     gridTemplateColumns: `1fr 1fr repeat(7, 3fr)`,
                 }}
@@ -71,7 +71,9 @@ const CalendarWeek: FC<{ terms: Term[] }> = ({ terms }) => {
                         const hour = minHour + hourDiff;
                         return (
                             <CardTitle
-                                className="col-start-1 col-end-1 row-span-4 text-2xl"
+                                className="relative col-start-1 col-end-1 row-span-4 text-2xl
+                                after:absolute after:left-0 after:z-[1]
+                                after:h-full after:w-[9000px] after:border-b-2"
                                 key={hourDiff}
                             >
                                 {`${hour}`.padStart(2, '0')}
@@ -82,13 +84,15 @@ const CalendarWeek: FC<{ terms: Term[] }> = ({ terms }) => {
                 {Array.from(Array((maxHour + 1 - minHour) * 4).keys()).map(
                     (i) => {
                         return (
-                            <span
-                                className="col-start-2 text-right"
+                            <CardDescription
+                                className="relative col-start-2 text-right 
+                                after:absolute after:left-1/2 after:-z-[0]
+                                after:h-full after:w-[9000px] after:border-b-[1px] after:dark:border-neutral-800"
                                 style={{ gridRow: 1 + i }}
                                 key={i}
                             >
                                 {`${(i % 4) * 15}`.padStart(2, '0')}
-                            </span>
+                            </CardDescription>
                         );
                     }
                 )}
@@ -115,7 +119,7 @@ const CalendarWeek: FC<{ terms: Term[] }> = ({ terms }) => {
                                 gridRowEnd: 1 + hour * 4 + minute + duration,
                                 gridColumn: column,
                             }}
-                            className="mt-[2px] border-2"
+                            className="z-10 mt-[2px] border-2"
                         >
                             lol
                         </p>
