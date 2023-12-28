@@ -6,6 +6,8 @@ import RoomThumbnail from '../components/RoomThumbnail';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import AddRoomModal from '../components/AddRoomModal';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 const Home = () => {
     const user = useAtomValue(userAtom);
@@ -41,22 +43,21 @@ const Home = () => {
 
     return (
         <>
-            <div className="w-1/2">
-                <div className="flex items-center justify-between">
-                    <p className="mb-4 text-3xl font-bold">Your rooms:</p>
-                    <button
-                        className="rounded-full bg-emerald-500 px-4 py-2 font-semibold text-white"
-                        onClick={() => setShowModal(true)}
-                    >
+            <Card className="w-1/2">
+                <CardHeader className="flex-row items-center justify-between">
+                    <p className="text-3xl font-bold">Your rooms</p>
+                    <Button onClick={() => setShowModal(true)}>
                         Create Room
-                    </button>
-                </div>
-                <ul>
-                    {data.map((room: any) => (
-                        <RoomThumbnail room={room} key={room.id} />
-                    ))}
-                </ul>
-            </div>
+                    </Button>
+                </CardHeader>
+                <CardContent>
+                    <ul>
+                        {data.map((room: any) => (
+                            <RoomThumbnail room={room} key={room.id} />
+                        ))}
+                    </ul>
+                </CardContent>
+            </Card>
             {showModal &&
                 createPortal(
                     <AddRoomModal onClose={() => setShowModal(false)} />,
