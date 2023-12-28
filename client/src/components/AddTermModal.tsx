@@ -20,7 +20,7 @@ import {
     SelectValue,
 } from './ui/select';
 
-const today = dayjs(new Date()).set('minute', 0);
+const today = dayjs().startOf('hour');
 
 const AddTermModal: FC<{ id: number; onClose: () => void }> = ({
     id,
@@ -48,7 +48,7 @@ const AddTermModal: FC<{ id: number; onClose: () => void }> = ({
 
     return (
         <div
-            className="absolute flex h-screen w-screen cursor-pointer items-center justify-center bg-black bg-opacity-90"
+            className="absolute z-20 flex h-screen w-screen cursor-pointer items-center justify-center bg-black bg-opacity-90"
             onClick={onClose}
         >
             <form onSubmit={handleSubmit}>

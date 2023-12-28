@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { serverUrl } from '../lib/data';
-import Term from '../components/Term';
 import { termSchema } from '../lib/response';
 import { useAtomValue } from 'jotai';
 import { userAtom } from '../lib/user';
@@ -17,6 +16,7 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { CalendarTerm } from '@/components/CalendarTerm';
 
 const Room = () => {
     const { id } = useParams();
@@ -90,36 +90,11 @@ const Room = () => {
                         </p>
                     </div>
                 </CardHeader>
-                <CardContent className="grid flex-1 grid-cols-5 grid-rows-3 gap-6 p-4">
+                <CardContent className="flex-1 p-4">
                     {/* TERMS  */}
-                    {terms.map((term: any) => (
-                        <Term key={term.id} term={term} />
-                    ))}
+                    <CalendarTerm terms={terms} />
                 </CardContent>
             </Card>
-            {editRoom &&
-                createPortal(
-                    <EditRoomModal
-                        description={description}
-                        id={+id!}
-                        title={title}
-                        onClose={() => setEditRoom(false)}
-                    />,
-                    document.querySelector('#modal') as HTMLElement
-                )}
-            {addTerm &&
-                createPortal(
-                    <AddTermModal
-                        id={+id!}
-                        onClose={() => setAddTerm(false)}
-                    />,
-                    document.querySelector('#modal') as HTMLElement
-                )}
-        </>
-    );
-    return (
-        <>
-            <div className="flex w-3/4 flex-col"></div>
             {editRoom &&
                 createPortal(
                     <EditRoomModal
