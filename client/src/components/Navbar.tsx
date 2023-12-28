@@ -1,13 +1,14 @@
 import { useAtom } from 'jotai';
 import { userAtom } from '../lib/user';
 import { Link } from 'react-router-dom';
+import { ModeToggle } from './mode-toggle';
 
 const Navbar = () => {
     const [user, setUser] = useAtom(userAtom);
     return (
-        <nav className="flex justify-between px-6 py-4">
+        <nav className="flex items-center justify-between px-6 py-4">
             <span className="text-xl font-semibold">Doodle</span>
-            <ul className="flex gap-6">
+            <ul className="flex items-center gap-6 font-medium">
                 <li>
                     <Link to="/">Home</Link>
                 </li>
@@ -27,6 +28,9 @@ const Navbar = () => {
                         </button>
                     </li>
                 )}
+                <li>
+                    <ModeToggle />
+                </li>
             </ul>
         </nav>
     );
