@@ -26,7 +26,7 @@ const AddTermModal: FC<{ id: number; onClose: () => void }> = ({
     id,
     onClose,
 }) => {
-    const [duration, setDuration] = useState(0);
+    const [duration, setDuration] = useState(15);
     const [start, setStart] = useState<dayjs.Dayjs>(today);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
