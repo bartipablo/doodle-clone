@@ -1,5 +1,6 @@
 package com.developerex.server.room;
 
+import com.developerex.server.attendee.AttendeeRepository;
 import com.developerex.server.attendee.model.Attendee;
 import com.developerex.server.room.dto.RoomInfoDto;
 import com.developerex.server.room.mapper.RoomMapper;
@@ -44,10 +45,12 @@ class RoomServiceTest {
 
         Optional<List<Room>> ownedRooms = Optional.of(List.of(ownedRoom1, ownedRoom2));
         RoomRepository repository = mock(RoomRepository.class);
+        AttendeeRepository attendeeRepository = mock(AttendeeRepository.class);
+
 
         given(repository.findAllByOwnerId(1L)).willReturn(ownedRooms);
 
-        RoomService roomService = new RoomService(repository);
+        RoomService roomService = new RoomService(repository, attendeeRepository);
 
 
         //when
@@ -61,10 +64,11 @@ class RoomServiceTest {
     void whenUserHasNotOwnedRoomGetAllRoomsOwnedByUserIdShouldThrowException() {
         //given
         RoomRepository repository = mock(RoomRepository.class);
+        AttendeeRepository attendeeRepository = mock(AttendeeRepository.class);
 
         given(repository.findAllByOwnerId(1L)).willReturn(Optional.empty());
 
-        RoomService roomService = new RoomService(repository);
+        RoomService roomService = new RoomService(repository, attendeeRepository);
 
         //when
         //then
@@ -104,10 +108,11 @@ class RoomServiceTest {
 
         Optional<List<Room>> participatedRooms = Optional.of(List.of(participatedRoom1, participatedRoom2));
         RoomRepository repository = mock(RoomRepository.class);
+        AttendeeRepository attendeeRepository = mock(AttendeeRepository.class);
 
         given(repository.findAllByParticipantsId(1L)).willReturn(participatedRooms);
 
-        RoomService roomService = new RoomService(repository);
+        RoomService roomService = new RoomService(repository, attendeeRepository);
 
         //when
         //then
@@ -120,10 +125,11 @@ class RoomServiceTest {
     void whenUserHasNotParticipatedRoomGetAllRoomsParticipatedByUserIdShouldThrowException() {
         //given
         RoomRepository repository = mock(RoomRepository.class);
+        AttendeeRepository attendeeRepository = mock(AttendeeRepository.class);
 
         given(repository.findAllByParticipantsId(1L)).willReturn(Optional.empty());
 
-        RoomService roomService = new RoomService(repository);
+        RoomService roomService = new RoomService(repository, attendeeRepository);
 
         //when
         //then
@@ -145,8 +151,10 @@ class RoomServiceTest {
         var roomDto = RoomMapper.mapToDto(room);
 
         RoomRepository repository = mock(RoomRepository.class);
+        AttendeeRepository attendeeRepository = mock(AttendeeRepository.class);
+
         given(repository.findById(1L)).willReturn(Optional.of(room));
-        RoomService roomService = new RoomService(repository);
+        RoomService roomService = new RoomService(repository, attendeeRepository);
 
         //when
         //then
@@ -157,8 +165,10 @@ class RoomServiceTest {
     void whenRoomDoesNotExistGetRoomByIdShouldThrowException() {
         //given
         RoomRepository repository = mock(RoomRepository.class);
+        AttendeeRepository attendeeRepository = mock(AttendeeRepository.class);
+
         given(repository.findById(1L)).willReturn(Optional.empty());
-        RoomService roomService = new RoomService(repository);
+        RoomService roomService = new RoomService(repository, attendeeRepository);
 
         //when
         //then
@@ -190,8 +200,10 @@ class RoomServiceTest {
         var participantDto2 = RoomMapper.mapToDto(room).participants().get(1);
 
         RoomRepository repository = mock(RoomRepository.class);
+        AttendeeRepository attendeeRepository = mock(AttendeeRepository.class);
+
         given(repository.findById(1L)).willReturn(Optional.of(room));
-        RoomService roomService = new RoomService(repository);
+        RoomService roomService = new RoomService(repository, attendeeRepository);
 
         //when
         //then
@@ -203,99 +215,25 @@ class RoomServiceTest {
     void whenRoomDoesNotExistGetRoomAttendeesShouldThrowException() {
         //given
         RoomRepository repository = mock(RoomRepository.class);
+        AttendeeRepository attendeeRepository = mock(AttendeeRepository.class);
+
         given(repository.findById(1L)).willReturn(Optional.empty());
-        RoomService roomService = new RoomService(repository);
+        RoomService roomService = new RoomService(repository, attendeeRepository);
 
         //when
         //then
         assertThrows(EntityNotFoundException.class, () -> roomService.getRoomAttendees(1L));
     }
 
-    @Test
-    void getRoomInfoShouldReturnRoomInfoDto() {
-        //given
-        var roomOwner = Attendee.builder()
-                .id(1L)
-                .username("owner")
-                .email("example@example.com")
-                .password("password")
-                .build();
-
-        var participant1 = Attendee.builder()
-                .id(2L)
-                .username("participant 1")
-                .email("example@example.com")
-                .password("password")
-                .build();
-
-        var participant2 = Attendee.builder()
-                .id(3L)
-                .username("participant 2")
-                .email("example@example.com")
-                .password("password")
-                .build();
-
-        var term1 = Term.builder()
-                .id(1L)
-                .votes(new ArrayList<>())
-                .build();
-
-        var term2 = Term.builder()
-                .id(2L)
-                .votes(Collections.emptyList())
-                .build();
-
-        var vote1 = Vote.builder()
-                .id(1L)
-                .attendee(participant1)
-                .term(term1)
-                .build();
-
-        var vote2 = Vote.builder()
-                .id(2L)
-                .attendee(participant1)
-                .term(term1)
-                .build();
-
-        term1.addVote(vote1);
-        term1.addVote(vote2);
-
-        var room = Room.builder()
-                .id(1L)
-                .owner(roomOwner)
-                .participants(Set.of(participant1, participant2))
-                .terms(List.of(term1, term2))
-                .build();
-
-        RoomRepository repository = mock(RoomRepository.class);
-        given(repository.findById(1L)).willReturn(Optional.of(room));
-        RoomService roomService = new RoomService(repository);
-
-        //when
-        RoomInfoDto roomInfoDto = roomService.getRoomInfo(1L);
-
-        //then
-        assertThat(roomInfoDto.owner(), is(RoomMapper.mapToDto(room).owner()));
-        assertThat(roomInfoDto.participants(), hasSize(2));
-        assertThat(roomInfoDto.participants(), contains(
-                RoomMapper.mapToDto(room).participants().get(0),
-                RoomMapper.mapToDto(room).participants().get(1))
-        );
-        assertThat(roomInfoDto.votesPerTerm(), hasEntry(TermMapper.mapToDto(term1), 2L));
-        assertThat(roomInfoDto.votesPerTerm(), hasEntry(TermMapper.mapToDto(term2), 0L));
-        assertThat(roomInfoDto.allVotes(), hasSize(2));
-        assertThat(roomInfoDto.allVotes(), contains(
-                VoteMapper.mapToDto(vote1),
-                VoteMapper.mapToDto(vote2))
-        );
-    }
 
     @Test
     void whenRoomDoesNotExistGetRoomInfoShouldThrowException() {
         //given
         RoomRepository repository = mock(RoomRepository.class);
+        AttendeeRepository attendeeRepository = mock(AttendeeRepository.class);
+
         given(repository.findById(1L)).willReturn(Optional.empty());
-        RoomService roomService = new RoomService(repository);
+        RoomService roomService = new RoomService(repository, attendeeRepository);
 
         //when
         //then

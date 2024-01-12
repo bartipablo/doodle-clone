@@ -1,5 +1,6 @@
 package com.developerex.server.term;
 
+import com.developerex.server.room.model.Room;
 import com.developerex.server.term.dto.TermDto;
 import com.developerex.server.term.mapper.TermMapper;
 import com.developerex.server.term.model.Term;
@@ -15,10 +16,17 @@ class TermMapperTest {
     @Test
     void mapToDto() {
         LocalDateTime specificDateTime = LocalDateTime.of(2023, 12, 7, 15, 30);
+        Room room = Room.builder()
+                .id(1L)
+                .title("title")
+                .description("description")
+                .deadline(specificDateTime)
+                .build();
 
         //given
         var entity = Term.builder()
                 .id(1L)
+                .room(room)
                 .startDateTime(specificDateTime)
                 .duration(10)
                 .build();
