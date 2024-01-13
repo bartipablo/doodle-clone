@@ -10,6 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -53,6 +54,9 @@ public class Attendee {
     @OneToMany(mappedBy = "attendee")
     @JsonBackReference
     private List<Vote> votes;
+
+    private Instant created;
+    private boolean enabled;
 
     public void addParticipationRoom(Room room) {
         this.participationRooms.add(room);

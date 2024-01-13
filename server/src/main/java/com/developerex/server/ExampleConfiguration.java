@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ public class ExampleConfiguration {
                         .password("examplepassword1")
                         .participationRooms(new HashSet<>())
                         .ownedRooms(new ArrayList<>())
+                        .created(Instant.now())
+                        .enabled(true)
                         .build();
 
                 var attendee2 = Attendee.builder()
@@ -42,6 +45,8 @@ public class ExampleConfiguration {
                         .password("examplepassword2")
                         .participationRooms(new HashSet<>())
                         .ownedRooms(new ArrayList<>())
+                        .created(Instant.now())
+                        .enabled(true)
                         .build();
 
                 var attendee3 = Attendee.builder()
@@ -50,6 +55,8 @@ public class ExampleConfiguration {
                         .password("examplepassword3")
                         .participationRooms(new HashSet<>())
                         .ownedRooms(new ArrayList<>())
+                        .created(Instant.now())
+                        .enabled(true)
                         .build();
 
                 attendeeRepository.saveAll(List.of(attendee1, attendee2, attendee3));

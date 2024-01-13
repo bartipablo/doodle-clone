@@ -1,6 +1,7 @@
 package com.developerex.server.vote;
 
 import com.developerex.server.attendee.AttendeeRepository;
+import com.developerex.server.mail.MailService;
 import com.developerex.server.room.RoomRepository;
 import com.developerex.server.room.model.Room;
 import com.developerex.server.term.TermRepository;
@@ -24,6 +25,7 @@ public class VoteService {
     private final RoomRepository roomRepository;
     private final TermRepository termRepository;
     private final AttendeeRepository attendeeRepository;
+    private final MailService mailService;
 
     public List<VoteDto> getAllVotes() {
         return voteRepository.findAll()
@@ -74,6 +76,14 @@ public class VoteService {
     public boolean stopVoting(Long roomId) {
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("No room found with id: " + roomId));
         room.setDeadline(LocalDateTime.now());
+
+
+        //TODO: sprawdzic czy dziala
+        room.getParticipants().forEach(attendee -> {
+            mailService.send(attendee.getEmail(), "Voting has ended", "Voting has ended for room: " + room.getTitle() + "check the results here " + "http://localhost:3000/room/" + roomId);
+        });
+
+
         roomRepository.save(room);
         return true;
     }
