@@ -2,6 +2,7 @@ package com.developerex.server.vote;
 
 import com.developerex.server.attendee.mapper.AttendeeMapper;
 import com.developerex.server.attendee.model.Attendee;
+import com.developerex.server.room.model.Room;
 import com.developerex.server.term.mapper.TermMapper;
 import com.developerex.server.term.model.Term;
 import com.developerex.server.vote.dto.VoteDto;
@@ -21,8 +22,15 @@ class VoteMapperTest {
                 .id(1L)
                 .build();
 
+        Room room = Room.builder()
+                .id(1L)
+                .title("title")
+                .description("description")
+                .build();
+
         var term = Term.builder()
                 .id(1L)
+                .room(room)
                 .build();
 
         var entity = Vote.builder()
@@ -58,8 +66,15 @@ class VoteMapperTest {
                 .id(1L)
                 .build();
 
+        Room room = Room.builder()
+                .id(1L)
+                .title("title")
+                .description("description")
+                .build();
+
         var term = Term.builder()
                 .id(1L)
+                .room(room)
                 .build();
 
         var dto = VoteDto.builder()

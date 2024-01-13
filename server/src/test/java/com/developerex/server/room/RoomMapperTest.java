@@ -25,16 +25,25 @@ class RoomMapperTest {
     void mapToDto() {
         LocalDateTime specificDateTime = LocalDateTime.of(2023, 12, 7, 15, 30);
 
+        Room room = Room.builder()
+                .id(1L)
+                .title("title")
+                .description("description")
+                .deadline(specificDateTime)
+                .build();
+
         var owner = Attendee.builder()
                 .id(1L)
                 .build();
 
         var term1 = Term.builder()
                 .id(1L)
+                .room(room)
                 .build();
 
         var term2 = Term.builder()
                 .id(2L)
+                .room(room)
                 .build();
 
         var participant1 = Attendee.builder()
