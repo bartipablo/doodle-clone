@@ -42,6 +42,14 @@ public class AuthService {
         attendee.setCreated(Instant.now());
         attendee.setEnabled(false);
 
+        if (attendeeRepository.findByUsername(attendee.getUsername()).isPresent()) {
+            throw new IllegalStateException("Username already taken");
+        }
+
+        if (attendeeRepository.findByEmail(attendee.getEmail()).isPresent()) {
+            throw new IllegalStateException("Email already taken");
+        }
+
         attendeeRepository.save(attendee);
 
         String token = generateVerificationToken(attendee);
