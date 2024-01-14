@@ -33,7 +33,7 @@ public class VoteController {
     }
 
     @PostMapping("/stop-voting/{roomId}")
-    public ResponseEntity<VoteDto> stopVoting(@RequestBody Long roomId) {
+    public ResponseEntity<VoteDto> stopVoting(@PathVariable Long roomId) {
         if (voteService.stopVoting(roomId)){
             return ResponseEntity.ok().build();
         }

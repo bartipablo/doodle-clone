@@ -47,7 +47,7 @@ const CalendarWeek: FC<{ terms: TermType[] }> = ({ terms }) => {
                     const day = monday.add(dayDiff, 'day');
                     return (
                         <div
-                            className="row-start-1 row-end-3 px-2"
+                            className="row-start-1 row-end-3 px-2 py-1 text-center border-b-2 border-neutral-200 dark:border-neutral-800"
                             key={dayDiff}
                         >
                             <CardTitle>{day.format('dddd')}</CardTitle>

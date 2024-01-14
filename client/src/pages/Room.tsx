@@ -59,29 +59,67 @@ const Room = () => {
                     },
                   }
             );
+
             if (!res.ok) throw new Error('Network response was not ok');
             return await res.json();
         },
     });
 
+    
+
     if (roomQ.isLoading || roomInfoQ.isLoading) return <p>Loading...</p>;
     if (roomQ.error || roomInfoQ.error) return <p>Error :(</p>;
 
-    const { title, description, terms: terms_, owner } = roomQ.data;
+    const { title, description, terms: terms_, owner, deadline } = roomQ.data;
     const { allVotes } = roomInfoQ.data;
+    console.log(terms_);
     const terms = terms_.map((term: any) => {
         const votes = allVotes
             .filter((v: any) => v.term.id === term.id)
             .map((v: any) => v.voteType);
         term = { ...term, votes };
         const tmp = termSchema.safeParse(term);
+        console.log(tmp)
+
         if (tmp.success) {
             return tmp.data;
         }
         throw tmp.error;
     });
+    console.log(terms);
+
+    terms.sort((a, b) => {
+        const availableA = a.votes.filter(v => v === 'AVAILABLE').length;
+        const availableB = b.votes.filter(v => v === 'AVAILABLE').length;
+    
+        return availableB - availableA;
+    });
+
+
+    const stopVote = async ()=>{
+        try {
+            const response = await fetch(`${serverUrl}/api/votes/stop-voting/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+
+            });
+
+            if (response.ok) {
+                window.location.reload();
+
+            } else {
+
+                console.error('Vote stop failed:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error during stopping vote:', error);
+        }
+    }
     return (
         <>
+            {new Date(deadline) > new Date() && ( 
             <Card className="w-3/4 border-0 shadow-none">
                 <CardHeader className="flex-row justify-between">
                     <div>
@@ -102,6 +140,9 @@ const Room = () => {
                                 <Button onClick={() => setAddTerm(true)}>
                                     Add term
                                 </Button>
+                                <Button onClick={() => stopVote()}>
+                                    Stop voting
+                                </Button>
                             </>
                         )}
                         <p>
@@ -114,6 +155,7 @@ const Room = () => {
                     <CalendarTerm terms={terms} />
                 </CardContent>
             </Card>
+            )}
             {editRoom &&
                 createPortal(
                     <EditRoomModal
@@ -132,6 +174,31 @@ const Room = () => {
                     />,
                     document.querySelector('#modal') as HTMLElement
                 )}
+
+            {new Date(deadline) < new Date() && (
+                <table className="mt-4 w-full border-collapse border border-gray-400">
+                <thead>
+                    <tr className="bg-gray-200">
+                        <th className="p-2 border">Term</th>
+                        <th className="p-2 border">Available</th>
+                        <th className="p-2 border">Not Available</th>
+                        <th className="p-2 border">Maybe</th>
+                        <th className="p-2 border">Pending</th>
+                    </tr>
+                </thead>
+                <tbody>
+            {terms.map((term: any) => (
+                <tr key={term.id} className="text-center">
+                    <td className="p-2 border">{term.startDateTime.toGMTString()}</td>
+                    <td className="p-2 border">{term.votes.filter((v) => v === 'AVAILABLE').length}</td>
+                    <td className="p-2 border">{term.votes.filter((v) => v === 'NOT_AVAILABLE').length}</td>
+                    <td className="p-2 border">{term.votes.filter((v) => v === 'MAYBE').length}</td>
+                    <td className="p-2 border">{term.votes.filter((v) => v === 'PENDING').length}</td>
+                </tr>
+            ))}
+            </tbody>
+        </table> 
+            )}
         </>
     );
 };

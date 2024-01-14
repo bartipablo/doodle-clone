@@ -46,6 +46,7 @@ const EditRoomModal: FC<{
         });
 
         if (res.ok) {
+            window.location.reload();
             console.log(await res.json());
         } else {
             console.log(await res.text());

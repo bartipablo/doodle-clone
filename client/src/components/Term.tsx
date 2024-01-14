@@ -10,6 +10,7 @@ import {
     TooltipTrigger,
     TooltipProvider,
 } from './ui/tooltip';
+import { useEffect } from 'react';
 
 const Term: FC<{ term: TermType; monday: dayjs.Dayjs; minHour: number }> = ({
     term,
@@ -35,12 +36,21 @@ const Term: FC<{ term: TermType; monday: dayjs.Dayjs; minHour: number }> = ({
         minute = 3;
     }
     const duration = term.duration / 15;
-    const column = term.startDateTime.diff(monday, 'day') + 1;
+    const column = term.startDateTime.diff(monday, 'day') + 3;
 
     const available = term.votes.filter((v) => v === 'AVAILABLE').length;
     const notAvailable = term.votes.filter((v) => v === 'NOT_AVAILABLE').length;
     const maybe = term.votes.filter((v) => v === 'MAYBE').length;
     const pending = term.votes.filter((v) => v === 'PENDING').length;
+
+    const [color, setColor] = useState('bg-emerald-200');
+
+    useEffect(() => {
+        setColor('bg-emerald-300');
+
+        console.log( 100 + (available - notAvailable) * 100 );
+        console.log(color);
+    }, [notAvailable, available]);
 
     return (
         <>
@@ -56,7 +66,8 @@ const Term: FC<{ term: TermType; monday: dayjs.Dayjs; minHour: number }> = ({
                         }}
                     >
                         <Card
-                            className="flex h-full w-full flex-col items-center justify-center rounded bg-emerald-100 font-medium dark:bg-emerald-900"
+                            className={`flex h-full w-full flex-col items-center justify-center rounded ${ color } font-medium dark:${ color }`}
+                        
                             onClick={() => setShowModal(true)}
                         >
                             <CardDescription className="flex justify-between">
@@ -74,6 +85,7 @@ const Term: FC<{ term: TermType; monday: dayjs.Dayjs; minHour: number }> = ({
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
+            
             {showModal &&
                 createPortal(
                     <VoteModal

@@ -49,6 +49,7 @@ const AddTermModal: FC<{ id: number; onClose: () => void }> = ({
                 roomId: id,
             }),
         });
+        window.location.reload();
         console.log(res.ok);
         onClose();
     };

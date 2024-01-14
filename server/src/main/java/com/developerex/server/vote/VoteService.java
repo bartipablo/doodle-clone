@@ -78,7 +78,6 @@ public class VoteService {
         room.setDeadline(LocalDateTime.now());
 
 
-        //TODO: sprawdzic czy dziala
         room.getParticipants().forEach(attendee -> {
             mailService.send(attendee.getEmail(), "Voting has ended", "Voting has ended for room: " + room.getTitle() + "check the results here " + "http://localhost:3000/room/" + roomId);
         });
