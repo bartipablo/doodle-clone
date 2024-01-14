@@ -6,6 +6,7 @@ import { Button, buttonVariants } from './ui/button';
 
 const Navbar = () => {
     const [user, setUser] = useAtom(userAtom);
+
     return (
         <nav className="flex items-center justify-between px-6 py-4">
             <span className="text-xl font-semibold">Doodle</span>
@@ -18,7 +19,7 @@ const Navbar = () => {
                         Home
                     </Link>
                 </li>
-                {user == undefined && (
+                {user== undefined && (
                     <li>
                         <a
                             href="/login"
@@ -28,12 +29,22 @@ const Navbar = () => {
                         </a>
                     </li>
                 )}
+                {user == undefined && (
+                    <li>
+                        <a
+                            href="/register"
+                            className={buttonVariants({ variant: 'outline' })}
+                        >
+                            SignUp
+                        </a>
+                    </li>
+                )}
                 {user != undefined && (
                     <li>
                         <Button
                             variant="outline"
                             onClick={() => {
-                                setUser(undefined);
+                                setUser(undefined );
                             }}
                         >
                             Logout
