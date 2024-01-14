@@ -1,36 +1,44 @@
 import dayjs from 'dayjs';
-import { FC, useRef } from 'react';
+import { FC, useState } from 'react';
 import { serverUrl } from '../lib/data';
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from './ui/card';
+import { Label } from './ui/label';
+import { Button } from './ui/button';
+import DatePicker from './DatePicker';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from './ui/select';
 
-const today = dayjs(new Date());
-
-const fieldsetClass = 'w-64 flex justify-between';
+const today = dayjs().startOf('hour');
 
 const AddTermModal: FC<{ id: number; onClose: () => void }> = ({
     id,
     onClose,
 }) => {
-    const dayRef = useRef<HTMLInputElement>(null);
-    const timeRef = useRef<HTMLInputElement>(null);
-    const durationRef = useRef<HTMLSelectElement>(null);
+    const [duration, setDuration] = useState(15);
+    const [start, setStart] = useState<dayjs.Dayjs>(today);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const time = timeRef.current!.value;
-        const [hours, minutes, _] = time.split(':');
-        const day = dayjs(Date.parse(dayRef.current!.value))
-            .set('hour', +hours)
-            .set('minute', +minutes);
-        const duration = +durationRef.current!.value;
-
         const res = await fetch(`${serverUrl}/api/terms/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                startDateTime: day.toISOString(),
-                duration,
+                startDateTime: start.toISOString(),
+                duration: duration,
                 roomId: id,
             }),
         });
@@ -40,50 +48,68 @@ const AddTermModal: FC<{ id: number; onClose: () => void }> = ({
 
     return (
         <div
-            className="absolute flex h-screen w-screen cursor-pointer items-center justify-center bg-stone-800 bg-opacity-95"
+            className="absolute z-20 flex h-screen w-screen cursor-pointer items-center justify-center bg-black bg-opacity-90"
             onClick={onClose}
         >
-            <div
-                className="flex h-1/2 w-1/2 cursor-auto flex-col items-center justify-center rounded-xl bg-stone-100 px-4 py-8"
-                onClick={(e) => e.stopPropagation()}
-            >
-                <h1 className="text-4xl font-bold">Add Term</h1>
-                <form
-                    className="flex flex-1 flex-col items-center justify-center gap-4"
-                    onSubmit={handleSubmit}
+            <form onSubmit={handleSubmit}>
+                <Card
+                    onClick={(e) => e.stopPropagation()}
+                    className="cursor-auto"
                 >
-                    <fieldset className={`${fieldsetClass}`}>
-                        <span>Start date: </span>
-                        <input
-                            type="date"
-                            min={today.format('YYYY-MM-DD')}
-                            defaultValue={today.format('YYYY-MM-DD')}
-                            ref={dayRef}
-                        />
-                    </fieldset>
-                    <fieldset className={`${fieldsetClass}`}>
-                        <span>Start time: </span>
-                        <input
-                            type="time"
-                            defaultValue="16:00"
-                            step={`${15 * 60}`}
-                            ref={timeRef}
-                        />
-                    </fieldset>
-                    <fieldset className={`${fieldsetClass}`}>
-                        <span>Duration: </span>
-                        <select ref={durationRef}>
-                            <option value="15">15</option>
-                            <option value="30">30</option>
-                            <option value="45">45</option>
-                            <option value="60">60</option>
-                        </select>
-                    </fieldset>
-                    <button className="w-32 rounded-full bg-emerald-500 px-1 py-2 font-semibold text-white">
-                        Add term
-                    </button>
-                </form>
-            </div>
+                    <CardHeader>
+                        <CardTitle className="text-2xl">Edit Room</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-5 items-center gap-4">
+                                <Label htmlFor="title" className="text-left">
+                                    Start
+                                </Label>
+                                <DatePicker start={start} setStart={setStart} />
+                            </div>
+                            <div className="grid grid-cols-5 items-center gap-4">
+                                <Label
+                                    htmlFor="title"
+                                    className="col-span-2 text-left"
+                                >
+                                    Duration
+                                </Label>
+                                <Select onValueChange={(e) => setDuration(+e)}>
+                                    <SelectTrigger className="col-span-3">
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectItem value="15">
+                                                15 minutes
+                                            </SelectItem>
+                                            <SelectItem value="30">
+                                                30 minutes
+                                            </SelectItem>
+                                            <SelectItem value="45">
+                                                45 minutes
+                                            </SelectItem>
+                                            <SelectItem value="60">
+                                                60 minutes
+                                            </SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
+                    </CardContent>
+                    <CardFooter className="justify-end gap-5">
+                        <Button
+                            variant="secondary"
+                            type="button"
+                            onClick={onClose}
+                        >
+                            Cancel
+                        </Button>
+                        <Button type="submit">Change</Button>
+                    </CardFooter>
+                </Card>
+            </form>
         </div>
     );
 };

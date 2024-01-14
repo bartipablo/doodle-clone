@@ -1,5 +1,16 @@
 import { FC, useState } from 'react';
 import { serverUrl } from '../lib/data';
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from './ui/card';
+import { Label } from './ui/label';
+import { Textarea } from './ui/textarea';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
 
 const fieldsetClass = 'w-96 flex justify-between';
 
@@ -35,41 +46,62 @@ const EditRoomModal: FC<{
     };
     return (
         <div
-            className="absolute flex h-screen w-screen cursor-pointer items-center justify-center bg-stone-800 bg-opacity-95"
+            className="absolute z-20 flex h-screen w-screen cursor-pointer items-center justify-center bg-black bg-opacity-90"
             onClick={onClose}
         >
-            <div
-                className="flex h-1/2 w-1/2 cursor-auto flex-col items-center justify-center rounded-xl bg-stone-100 px-4 py-8"
-                onClick={(e) => e.stopPropagation()}
-            >
-                <h1 className="text-4xl font-bold">Edit Room</h1>
-                <form
-                    onSubmit={handleSubmit}
-                    className="flex flex-1 flex-col items-center justify-center gap-4"
+            <form onSubmit={handleSubmit}>
+                <Card
+                    onClick={(e) => e.stopPropagation()}
+                    className="cursor-auto"
                 >
-                    <fieldset className={`${fieldsetClass}`}>
-                        <label>Title: </label>
-                        <input
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.currentTarget.value)}
-                        />
-                    </fieldset>
-                    <fieldset className={`${fieldsetClass}`}>
-                        <label>Description: </label>
-                        <input
-                            type="text"
-                            value={description}
-                            onChange={(e) =>
-                                setDescription(e.currentTarget.value)
-                            }
-                        />
-                    </fieldset>
-                    <button className="w-32 rounded-full bg-emerald-500 px-1 py-2 font-semibold text-white">
-                        Submit changes
-                    </button>
-                </form>
-            </div>
+                    <CardHeader>
+                        <CardTitle className="text-2xl">Edit Room</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-5 items-center gap-4">
+                                <Label htmlFor="title" className="text-left">
+                                    Title
+                                </Label>
+                                <Input
+                                    id="title"
+                                    type="text"
+                                    value={title}
+                                    onChange={(e) =>
+                                        setTitle(e.currentTarget.value)
+                                    }
+                                    className="col-span-4"
+                                />
+                            </div>
+                            <div className="grid grid-cols-5 items-center gap-4">
+                                <Label
+                                    htmlFor="description"
+                                    className="text-left"
+                                >
+                                    Description
+                                </Label>
+                                <Textarea
+                                    className="col-span-4 max-h-[120px]"
+                                    value={description}
+                                    onChange={(e) =>
+                                        setDescription(e.currentTarget.value)
+                                    }
+                                ></Textarea>
+                            </div>
+                        </div>
+                    </CardContent>
+                    <CardFooter className="justify-end gap-5">
+                        <Button
+                            variant="secondary"
+                            type="button"
+                            onClick={onClose}
+                        >
+                            Cancel
+                        </Button>
+                        <Button type="submit">Change</Button>
+                    </CardFooter>
+                </Card>
+            </form>
         </div>
     );
 };
