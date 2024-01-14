@@ -30,9 +30,9 @@ public class ExampleConfiguration {
             if (roomRepository.count() == 0) {
 
                 var attendee1 = Attendee.builder()
-                        .username("Example name 1")
-                        .email("example1@example.com")
-                        .password("examplepassword1")
+                        .username("username1")
+                        .email("username1@example.com")
+                        .password("password1")
                         .participationRooms(new HashSet<>())
                         .ownedRooms(new ArrayList<>())
                         .created(Instant.now())
