@@ -14,9 +14,25 @@ const Home = () => {
     const [data, setData] = useState<any[]>([]);
     const [showModal, setShowModal] = useState(false);
 
+
+    const authTokenCookie = document.cookie
+                                .split('; ')
+                                .find(row => row.startsWith('authenticationToken='));
+
+    const authToken = authTokenCookie ? authTokenCookie.split('=')[1] : undefined;
+
+
     // TODO: Fix types
+
     const queryRooms = async ({ queryKey }: { queryKey: any }) => {
-        const res = await fetch(`${serverUrl}/api/rooms/${queryKey}/${user}`);
+        console.log("elo" + authToken);
+
+        const res = await fetch(`${serverUrl}/api/rooms/${queryKey}/${user}`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${authToken}`
+            },
+        });
         if (!res.ok) throw new Error('Network response was not ok');
 
         return res.json();

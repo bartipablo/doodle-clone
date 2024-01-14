@@ -25,10 +25,24 @@ const Room = () => {
     const [editRoom, setEditRoom] = useState(false);
     const [addTerm, setAddTerm] = useState(false);
 
+    const authTokenCookie = document.cookie
+                                .split('; ')
+                                .find(row => row.startsWith('authenticationToken='));
+
+    const authToken = authTokenCookie ? authTokenCookie.split('=')[1] : undefined;
+
     const roomQ = useQuery({
         queryKey: ['room'],
+
         queryFn: async () => {
-            const res = await fetch(`${serverUrl}/api/rooms/get-room/${id}`);
+            
+            const res = await fetch(`${serverUrl}/api/rooms/get-room/${id}`, {
+                method: 'GET',
+                headers: {
+                  'Authorization': `Bearer ${authToken}`
+                },
+              });
+
             if (!res.ok) throw new Error('Network response was not ok');
             return await res.json();
         },
@@ -38,7 +52,12 @@ const Room = () => {
         queryKey: ['room-info'],
         queryFn: async () => {
             const res = await fetch(
-                `${serverUrl}/api/rooms/get-room-info/${id}`
+                `${serverUrl}/api/rooms/get-room-info/${id}`, {
+                    method: 'GET',
+                    headers: {
+                      'Authorization': `Bearer ${authToken}`
+                    },
+                  }
             );
             if (!res.ok) throw new Error('Network response was not ok');
             return await res.json();

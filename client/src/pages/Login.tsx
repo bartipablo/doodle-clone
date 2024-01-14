@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {serverUrl} from "@/lib/data.ts";
 
+
 const Login = () => {
     const [user, setUser] = useAtom(userAtom);
     const [searchParams, _] = useSearchParams();
@@ -35,8 +36,9 @@ const Login = () => {
             });
 
             if (response.ok) {
-                console.log("dupsko")
                 response.json().then((data) => {
+                    document.cookie = `authenticationToken=${data.authenticationToken}; path=/`;
+                    document.cookie = `refreshToken=${data.refreshToken}; path=/`;
                     console.log(data.id)
                     setUser(data.id)
                 })

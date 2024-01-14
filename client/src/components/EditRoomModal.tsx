@@ -23,12 +23,20 @@ const EditRoomModal: FC<{
     const [title, setTitle] = useState(title_);
     const [description, setDescription] = useState(description_);
 
+
+    const authTokenCookie = document.cookie
+                                .split('; ')
+                                .find(row => row.startsWith('authenticationToken='));
+
+    const authToken = authTokenCookie ? authTokenCookie.split('=')[1] : undefined;
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         let res = await fetch(`${serverUrl}/api/rooms`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
             },
             body: JSON.stringify({
                 id,

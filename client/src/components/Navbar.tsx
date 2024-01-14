@@ -3,6 +3,7 @@ import { userAtom } from '../lib/user';
 import { Link } from 'react-router-dom';
 import { ModeToggle } from './mode-toggle';
 import { Button, buttonVariants } from './ui/button';
+import { serverUrl } from '../lib/data';
 
 const Navbar = () => {
     const [user, setUser] = useAtom(userAtom);
@@ -45,6 +46,7 @@ const Navbar = () => {
                             variant="outline"
                             onClick={() => {
                                 setUser(undefined );
+                                handleLogout();
                             }}
                         >
                             Logout
@@ -58,5 +60,34 @@ const Navbar = () => {
         </nav>
     );
 };
+
+
+async function handleLogout() {
+    // const refreshTokenCookie = document.cookie
+    //     .split('; ')
+    //     .find(row => row.startsWith('refreshToken='));
+
+    // const refreshToken = refreshTokenCookie ? refreshTokenCookie.split('=')[1] : undefined;
+
+    // try {
+    //     const res = await fetch(`${serverUrl}/api/auth/logout`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //             refreshToken: refreshToken,
+    //         }),
+    //     });
+
+    //     if (!res.ok) {
+    //         throw new Error('Network response was not ok');
+    //     }
+
+    // } catch (error) {
+    //     console.error('Error during the request:', error);
+    // }
+}
+
 
 export default Navbar;

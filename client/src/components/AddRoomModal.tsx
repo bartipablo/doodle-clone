@@ -30,14 +30,24 @@ const AddRoomModal: FC<{
     const [deadline, setDeadline] = useState(day);
     const user = useAtomValue(userAtom);
     const [participantsEmails, setParticipantsEmails] = useState<string[]>(['']);
+
+
+    const authTokenCookie = document.cookie
+                                .split('; ')
+                                .find(row => row.startsWith('authenticationToken='));
+
+    const authToken = authTokenCookie ? authTokenCookie.split('=')[1] : undefined;
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(title, description, deadline, participants);
+        
         //TODO: make sure participants does not contain owner
         const res = await fetch(`${serverUrl}/api/rooms/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
             },
             body: JSON.stringify({
                 title,

@@ -35,11 +35,20 @@ const VoteModal: FC<{ id: number; onClose: () => void }> = ({
 
     const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+
+        const authTokenCookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('authenticationToken='));
+
+        const authToken = authTokenCookie ? authTokenCookie.split('=')[1] : undefined;
+
         // FIXME: nie dziala
         const res = await fetch(`${serverUrl}/api/votes/add-vote`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
             },
             body: JSON.stringify({
                 voteType,

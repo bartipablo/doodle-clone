@@ -122,7 +122,7 @@ public class RoomService {
 
         room.setTitle(data.title());
         room.setDescription(data.description());
-        room.setDeadline(data.deadline());
+        //room.setDeadline(data.deadline());
         roomRepository.save(room);
 
         return data;

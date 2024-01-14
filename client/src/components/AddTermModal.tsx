@@ -29,12 +29,19 @@ const AddTermModal: FC<{ id: number; onClose: () => void }> = ({
     const [duration, setDuration] = useState(15);
     const [start, setStart] = useState<dayjs.Dayjs>(today);
 
+    const authTokenCookie = document.cookie
+                                .split('; ')
+                                .find(row => row.startsWith('authenticationToken='));
+
+    const authToken = authTokenCookie ? authTokenCookie.split('=')[1] : undefined;
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const res = await fetch(`${serverUrl}/api/terms/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
             },
             body: JSON.stringify({
                 startDateTime: start.toISOString(),

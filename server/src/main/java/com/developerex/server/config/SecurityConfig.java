@@ -53,8 +53,8 @@ public class SecurityConfig {
                         .antMatchers("/api/auth/**")
                         .permitAll()
                         .anyRequest()
-                        .permitAll())
-//                        .authenticated())
+                        .authenticated())
+//                        )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exceptions -> exceptions
