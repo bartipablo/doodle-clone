@@ -1,32 +1,48 @@
 import { useAtom } from 'jotai';
 import { userAtom } from '../lib/user';
 import { Link } from 'react-router-dom';
+import { ModeToggle } from './mode-toggle';
+import { Button, buttonVariants } from './ui/button';
 
 const Navbar = () => {
     const [user, setUser] = useAtom(userAtom);
     return (
-        <nav className="flex justify-between px-6 py-4">
+        <nav className="flex items-center justify-between px-6 py-4">
             <span className="text-xl font-semibold">Doodle</span>
-            <ul className="flex gap-6">
+            <ul className="flex items-center gap-6 font-medium">
                 <li>
-                    <Link to="/">Home</Link>
+                    <Link
+                        to="/"
+                        className={buttonVariants({ variant: 'link' })}
+                    >
+                        Home
+                    </Link>
                 </li>
                 {user == undefined && (
                     <li>
-                        <a href="/login">Login</a>
+                        <a
+                            href="/login"
+                            className={buttonVariants({ variant: 'outline' })}
+                        >
+                            Login
+                        </a>
                     </li>
                 )}
                 {user != undefined && (
                     <li>
-                        <button
+                        <Button
+                            variant="outline"
                             onClick={() => {
                                 setUser(undefined);
                             }}
                         >
                             Logout
-                        </button>
+                        </Button>
                     </li>
                 )}
+                <li>
+                    <ModeToggle />
+                </li>
             </ul>
         </nav>
     );

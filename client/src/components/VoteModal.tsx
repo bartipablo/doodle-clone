@@ -2,6 +2,21 @@ import { useAtomValue } from 'jotai';
 import { FC, useState } from 'react';
 import { userAtom } from '../lib/user';
 import { serverUrl } from '../lib/data';
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from './ui/card';
+import { Button } from './ui/button';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from './ui/select';
 
 const fieldsetClass =
     'flex flex-col italic text-neutral-700 justify-center items-center text-xl';
@@ -12,7 +27,7 @@ const VoteModal: FC<{ id: number; onClose: () => void }> = ({
     onClose,
 }) => {
     const userId = useAtomValue(userAtom);
-    const [voteType, setVoteType] = useState<string>('AVAILABLE');
+    const [voteType, setVoteType] = useState<string | undefined>(undefined);
 
     const handleVote = (e: React.ChangeEvent<HTMLInputElement>) => {
         setVoteType(e.target.value);
@@ -35,6 +50,53 @@ const VoteModal: FC<{ id: number; onClose: () => void }> = ({
         console.log(res);
         onClose();
     };
+
+    return (
+        <div
+            className="absolute z-20 flex h-screen w-screen cursor-pointer items-center justify-center bg-black bg-opacity-90"
+            onClick={onClose}
+        >
+            <form onSubmit={submitForm}>
+                <Card
+                    onClick={(e) => e.stopPropagation()}
+                    className="cursor-auto"
+                >
+                    <CardHeader>
+                        <CardTitle className="text-2xl">Vote</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <Select onValueChange={(e) => setVoteType(e)}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select availability" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="AVAILABLE">
+                                    Available
+                                </SelectItem>
+                                <SelectItem value="NOT_AVAILABLE">
+                                    Not Available
+                                </SelectItem>
+                                <SelectItem value="MAYBE">Maybe</SelectItem>
+                                <SelectItem value="PENDING">Pending</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </CardContent>
+                    <CardFooter className="justify-end gap-5">
+                        <Button
+                            variant="secondary"
+                            type="button"
+                            onClick={onClose}
+                        >
+                            Cancel
+                        </Button>
+                        <Button type="submit" disabled={voteType === undefined}>
+                            Vote
+                        </Button>
+                    </CardFooter>
+                </Card>
+            </form>
+        </div>
+    );
     return (
         <div
             className="absolute flex h-screen w-screen cursor-pointer items-center justify-center bg-stone-800 bg-opacity-95"
