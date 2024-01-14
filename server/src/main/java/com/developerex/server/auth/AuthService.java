@@ -78,6 +78,7 @@ public class AuthService {
                 .refreshToken(refreshTokenService.generateRefreshToken().getToken())
                 .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
                 .username(loginRequest.getUsername())
+                .id(attendeeRepository.findByUsername(loginRequest.getUsername()).get().getId())
                 .build();
     }
 
@@ -90,6 +91,7 @@ public class AuthService {
                 .refreshToken(refreshTokenRequest.getRefreshToken())
                 .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
                 .username(refreshTokenRequest.getUsername())
+                .id(attendeeRepository.findByUsername(refreshTokenRequest.getUsername()).get().getId())
                 .build();
     }
 }
