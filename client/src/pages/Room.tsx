@@ -135,28 +135,6 @@ const Room = () => {
                     {/* TERMS  */}
                     <CalendarTerm terms={terms} />
                 </CardContent>
-                <table className="mt-4 w-full border-collapse border border-gray-400">
-                    <thead>
-                    <tr className="bg-gray-200">
-                        <th className="p-2 border">Term</th>
-                        <th className="p-2 border">Available</th>
-                        <th className="p-2 border">Not Available</th>
-                        <th className="p-2 border">Maybe</th>
-                        <th className="p-2 border">Pending</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {terms.map((term) => (
-                        <tr key={term.id} className="text-center">
-                            <td className="p-2 border">{getTermTime(term)}</td>
-                            <td className="p-2 border">{term.votes.filter((v) => v === 'AVAILABLE').length}</td>
-                            <td className="p-2 border">{term.votes.filter((v) => v === 'NOT_AVAILABLE').length}</td>
-                            <td className="p-2 border">{term.votes.filter((v) => v === 'MAYBE').length}</td>
-                            <td className="p-2 border">{term.votes.filter((v) => v === 'PENDING').length}</td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
             </Card>
             )}
             {editRoom &&

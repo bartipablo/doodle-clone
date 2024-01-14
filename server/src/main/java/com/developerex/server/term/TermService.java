@@ -33,6 +33,10 @@ public class TermService {
         Room room = roomRepository.findById(termDto.roomId()).orElseThrow(() -> new EntityNotFoundException("No room found with id: " + termDto.roomId()));
         term.setRoom(room);
 
+        if (term.getStartDateTime().isBefore(java.time.LocalDateTime.now())) {
+            return null;
+        }
+
         // check if terms overlap
         List<Term> terms = termRepository.findAllByRoomId(termDto.roomId());
         for (Term t : terms) {
