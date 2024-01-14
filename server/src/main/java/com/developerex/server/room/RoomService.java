@@ -46,7 +46,8 @@ public class RoomService {
                 .description(roomDto.description())
                 .deadline(roomDto.deadline())
                 .terms( new ArrayList<Term>())
-                .participants(roomDto.participants().stream().map(attendeeDto -> attendeeRepository.findById(attendeeDto).orElseThrow(() -> new EntityNotFoundException("No attendee found with id: " + attendeeDto))).collect(Collectors.toSet()))
+                .participants(roomDto.participants().stream().map(attendeeDto ->
+                        attendeeRepository.findByEmail(attendeeDto).orElseThrow(() -> new EntityNotFoundException("No attendee found with email: " + attendeeDto))).collect(Collectors.toSet()))
                 .build();
 
         room.setOwner(attendeeRepository.findById(roomDto.owner()).orElseThrow(() -> new EntityNotFoundException("No attendee found with id: " + roomDto.owner())));

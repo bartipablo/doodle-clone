@@ -9,5 +9,5 @@ public record NewRoomDto (
     LocalDateTime deadline,
     Long owner,
     List<Long> terms,
-    List<Long> participants){
+    List<String> participants){
 }
