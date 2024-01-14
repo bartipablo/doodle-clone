@@ -4,6 +4,7 @@ import com.developerex.server.attendee.AttendeeRepository;
 import com.developerex.server.attendee.model.Attendee;
 import com.developerex.server.auth.dto.AuthenticationResponse;
 import com.developerex.server.auth.dto.LoginRequest;
+import com.developerex.server.auth.dto.RefreshTokenRequest;
 import com.developerex.server.mail.MailService;
 import com.developerex.server.sercurity.JwtProvider;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ public class AuthService {
     private final MailService mailService;
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
+    private final RefreshTokenService refreshTokenService;
 
 
     public void signup(RegisterRequest registerRequest) {
@@ -73,9 +75,21 @@ public class AuthService {
         String token = jwtProvider.generateToken(authenticate);
         return AuthenticationResponse.builder()
                 .authenticationToken(token)
-                //.refreshToken(refreshTokenService.generateRefreshToken().getToken())
-                //.expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                .refreshToken(refreshTokenService.generateRefreshToken().getToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
                 .username(loginRequest.getUsername())
+                .build();
+    }
+
+
+    public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
+        String token = jwtProvider.generateTokenWithUserName(refreshTokenRequest.getUsername());
+        return AuthenticationResponse.builder()
+                .authenticationToken(token)
+                .refreshToken(refreshTokenRequest.getRefreshToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                .username(refreshTokenRequest.getUsername())
                 .build();
     }
 }
