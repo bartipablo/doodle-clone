@@ -94,6 +94,10 @@ const Room = () => {
                     {/* TERMS  */}
                     <CalendarTerm terms={terms} />
                 </CardContent>
+
+                <table className="mt-4 w-full border-collapse border border-gray-400">
+
+    </table>
             </Card>
             {editRoom &&
                 createPortal(
@@ -113,6 +117,8 @@ const Room = () => {
                     />,
                     document.querySelector('#modal') as HTMLElement
                 )}
+
+            
         </>
     );
 };

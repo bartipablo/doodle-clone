@@ -36,7 +36,7 @@ const Term: FC<{ term: TermType; monday: dayjs.Dayjs; minHour: number }> = ({
         minute = 3;
     }
     const duration = term.duration / 15;
-    const column = term.startDateTime.diff(monday, 'day') + 1;
+    const column = term.startDateTime.diff(monday, 'day') + 3;
 
     const available = term.votes.filter((v) => v === 'AVAILABLE').length;
     const notAvailable = term.votes.filter((v) => v === 'NOT_AVAILABLE').length;
@@ -85,6 +85,9 @@ const Term: FC<{ term: TermType; monday: dayjs.Dayjs; minHour: number }> = ({
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
+
+
+            
             {showModal &&
                 createPortal(
                     <VoteModal
