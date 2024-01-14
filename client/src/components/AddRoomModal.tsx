@@ -25,9 +25,9 @@ const AddRoomModal: FC<{
     const [description, setDescription] = useState('');
     const [participants, setParticipants] = useState<number[]>([]);
 
-    const day = today.set('hour', +24).set('minute', +60);
-    //TODO: add deadline
+    const day = today.set('hour', +48).set('minute', +60);
     const [deadline, setDeadline] = useState(day);
+
     const user = useAtomValue(userAtom);
     const [participantsEmails, setParticipantsEmails] = useState<string[]>(['']);
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

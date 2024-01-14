@@ -85,8 +85,6 @@ const Term: FC<{ term: TermType; monday: dayjs.Dayjs; minHour: number }> = ({
                     </TooltipContent>
                 </Tooltip>
             </TooltipProvider>
-
-
             
             {showModal &&
                 createPortal(
