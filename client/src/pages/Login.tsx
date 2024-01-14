@@ -4,6 +4,7 @@ import { Navigate, useLocation, useSearchParams } from 'react-router-dom';
 import React, { useRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import {serverUrl} from "@/lib/data.ts";
 
 const Login = () => {
     const [user, setUser] = useAtom(userAtom);
@@ -14,12 +15,45 @@ const Login = () => {
     const [validPassword, setValidPassword] = React.useState(true);
     const [validLogin, setValidLogin] = React.useState(true);
 
-    const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
+    const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (loginInput.current == null || passwordInput.current == null) {
             return;
         }
-        setUser(loginInput.current.value);
+        const loginData = {
+            username: loginInput.current.value,
+            password: passwordInput.current.value,
+        };
+        try {
+            // Make a request to your Spring backend for registration
+            const response = await fetch(`${serverUrl}/api/auth/login/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(loginData),
+            });
+
+            if (response.ok) {
+                console.log("dupsko")
+                response.json().then((data) => {
+                    console.log(data.id)
+                    setUser(data.id)
+                })
+                // Registration successful
+
+
+
+            } else {
+                // Registration failed
+                // Handle the error, e.g., display an error message
+                console.error('Login failed:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+            // Handle error as needed
+        }
+
     };
 
     if (user != undefined) {

@@ -11,6 +11,7 @@ const Registration = () => {
     const [user, setUser] = useAtom(userAtom);
     const navigate = useNavigate();
     const [searchParams, _] = useSearchParams();
+    const [register, setRegister] = useState(0);
 
     const usernameInput = useRef<HTMLInputElement>(null);
     const emailInput = useRef<HTMLInputElement>(null);
@@ -57,7 +58,7 @@ const Registration = () => {
                 if (response.ok) {
 
                     // Registration successful
-                    setUser("49")
+                    setRegister(1)
 
 
                 } else {
@@ -98,7 +99,7 @@ const Registration = () => {
     };
 
     return (<>
-        {user == undefined && (
+        {register == 0 && (
             <form className="flex flex-col gap-2 rounded" onSubmit={submitForm}>
                 <Input
                     type="text"
@@ -124,9 +125,9 @@ const Registration = () => {
                 <Button>Register</Button>
             </form>
         )}
-    {user != undefined && (
+    {register != 0 && (
         <h2>
-            Registration complete, please login
+            Please confirm email and login
         </h2>
     )}
         </>

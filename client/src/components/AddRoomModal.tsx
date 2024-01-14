@@ -29,7 +29,7 @@ const AddRoomModal: FC<{
     //TODO: add deadline
     const [deadline, setDeadline] = useState(day);
     const user = useAtomValue(userAtom);
-
+    const [participantsEmails, setParticipantsEmails] = useState<string[]>(['']);
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(title, description, deadline, participants);
@@ -48,16 +48,27 @@ const AddRoomModal: FC<{
                 participants: participants.filter((e) => e != +user!),
             }),
         });
+        console.log(participantsEmails)
 
-        if (!res.ok) {
+
+        if (!res.ok || participantsEmails.length == 0) {
             console.error(await res.text());
         } else {
             console.log(await res.json());
+            // window.location.reload();
         }
 
         onClose();
     };
+    const addParticipantInput = () => {
+        setParticipantsEmails([...participantsEmails, '']);
+    };
 
+    const handleParticipantEmailChange = (index: number, email: string) => {
+        const updatedEmails = [...participantsEmails];
+        updatedEmails[index] = email;
+        setParticipantsEmails(updatedEmails);
+    };
     return (
         <div
             className="absolute flex h-screen w-screen cursor-pointer items-center justify-center bg-black bg-opacity-90"
@@ -106,18 +117,23 @@ const AddRoomModal: FC<{
                                 <Label htmlFor="to-add" className="text-left">
                                     Users to add
                                 </Label>
-                                <Input
-                                    id="to-add"
-                                    type="text"
-                                    onChange={(e) => {
-                                        setParticipants(
-                                            e.currentTarget.value
-                                                .split(' ')
-                                                .map((id) => parseInt(id))
-                                        );
-                                    }}
-                                    className="col-span-4"
-                                />
+                                {participantsEmails.map((email, index) => (
+                                    <div key={index} className="col-span-4 flex gap-2">
+                                        <Input
+                                            type="text"
+                                            value={email}
+                                            onChange={(e) =>
+                                                handleParticipantEmailChange(index, e.currentTarget.value)
+                                            }
+                                        />
+                                        {index === participantsEmails.length - 1 && (
+                                            <Button type="button" onClick={addParticipantInput}>
+                                                +
+                                            </Button>
+                                        )}
+                                    </div>
+                                ))}
+
                             </div>
                         </div>
                     </CardContent>
