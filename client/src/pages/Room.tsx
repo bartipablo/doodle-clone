@@ -88,7 +88,7 @@ const Room = () => {
             });
 
             if (response.ok) {
-
+                window.location.reload();
 
             } else {
 

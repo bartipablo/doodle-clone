@@ -47,6 +47,7 @@ const VoteModal: FC<{ id: number; onClose: () => void }> = ({
                 attendeeId: +userId!,
             }),
         });
+        window.location.reload();
         console.log(res);
         onClose();
     };

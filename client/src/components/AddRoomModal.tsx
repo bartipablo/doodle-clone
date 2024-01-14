@@ -55,7 +55,7 @@ const AddRoomModal: FC<{
             console.error(await res.text());
         } else {
             console.log(await res.json());
-            // window.location.reload();
+            window.location.reload();
         }
 
         onClose();
