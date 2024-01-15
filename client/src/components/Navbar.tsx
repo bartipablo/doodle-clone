@@ -63,30 +63,33 @@ const Navbar = () => {
 
 
 async function handleLogout() {
-    // const refreshTokenCookie = document.cookie
-    //     .split('; ')
-    //     .find(row => row.startsWith('refreshToken='));
+    const refreshTokenCookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('refreshToken='));
 
-    // const refreshToken = refreshTokenCookie ? refreshTokenCookie.split('=')[1] : undefined;
+    const refreshToken = refreshTokenCookie ? refreshTokenCookie.split('=')[1] : undefined;
 
-    // try {
-    //     const res = await fetch(`${serverUrl}/api/auth/logout`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({
-    //             refreshToken: refreshToken,
-    //         }),
-    //     });
+    try {
+        const res = await fetch(`${serverUrl}/api/auth/logout`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                refreshToken: refreshToken,
+            }),
+        });
 
-    //     if (!res.ok) {
-    //         throw new Error('Network response was not ok');
-    //     }
+        document.cookie = `authenticationToken=; path=/`;
+        document.cookie = `refreshToken=; path=/`;
 
-    // } catch (error) {
-    //     console.error('Error during the request:', error);
-    // }
+        if (!res.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+    } catch (error) {
+        console.error('Error during the request:', error);
+    }
 }
 
 

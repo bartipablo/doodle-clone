@@ -25,7 +25,6 @@ const Home = () => {
     // TODO: Fix types
 
     const queryRooms = async ({ queryKey }: { queryKey: any }) => {
-        console.log("elo" + authToken);
 
         const res = await fetch(`${serverUrl}/api/rooms/${queryKey}/${user}`, {
             method: 'GET',

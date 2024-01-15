@@ -39,7 +39,6 @@ const Login = () => {
                 response.json().then((data) => {
                     document.cookie = `authenticationToken=${data.authenticationToken}; path=/`;
                     document.cookie = `refreshToken=${data.refreshToken}; path=/`;
-                    console.log(data.id)
                     setUser(data.id)
                 })
                 // Registration successful
