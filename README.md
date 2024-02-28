@@ -38,9 +38,9 @@ Doodle is an online scheduling tool that simplifies the process of arranging mee
     npm run dev
     ```
 ## Authors
-*Bartosz Pawłowski*
-*Krzysztof Wysocki*
-*Jakub Żywiecki*
-*Dominik Pilipczuk*
+*Bartosz Pawłowski,*
+*Krzysztof Wysocki,*
+*Jakub Żywiecki,*
+*Dominik Pilipczuk,*
 
 
