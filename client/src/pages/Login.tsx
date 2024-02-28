@@ -9,7 +9,7 @@ import { serverUrl } from '@/lib/data.ts';
 const Login = () => {
     const [user, setUser] = useAtom(userAtom);
     const [searchParams, _] = useSearchParams();
-    const [error, setError] = useState<string | null>(null); // Dodajemy stan do przechowywania błędu logowania
+    const [error, setError] = useState<string | null>(null);
 
     const loginInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
@@ -60,7 +60,9 @@ const Login = () => {
     }
 
     return (
-        <div>
+        <div className="flex flex-col items-center">
+            {' '}
+            {/* Użyj flexboxa, aby wyśrodkować elementy w pionie */}
             <form className="flex flex-col gap-2 rounded" onSubmit={submitForm}>
                 <Input
                     type="text"

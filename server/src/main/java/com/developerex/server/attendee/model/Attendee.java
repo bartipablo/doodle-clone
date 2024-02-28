@@ -38,7 +38,6 @@ public class Attendee {
     @NotNull(message = "Email can not be null")
     private String email;
 
-    @Size(min = 6, max=50, message = "Password should be 6 - 50 characters long")
     @NotBlank(message = "Password can not be blank")
     @NotNull(message = "Password can not be null")
     private String password;

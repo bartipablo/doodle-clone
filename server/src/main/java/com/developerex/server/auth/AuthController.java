@@ -20,8 +20,12 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody RegisterRequest registerRequest) {
-        authService.signup(registerRequest);
-        return new ResponseEntity<>("Registration succesful", HttpStatus.CREATED);
+        try {
+            authService.signup(registerRequest);
+            return new ResponseEntity<>("Registration succesful", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/accountVerification/{token}")

@@ -1,17 +1,18 @@
 import React, { useRef, useState } from 'react';
-import {Navigate, useNavigate} from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { userAtom } from '../lib/user';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { serverUrl } from '../lib/data';
-import {  useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 const Registration = () => {
     const [user, setUser] = useAtom(userAtom);
     const navigate = useNavigate();
     const [searchParams, _] = useSearchParams();
     const [register, setRegister] = useState(0);
+    const [error, setError] = useState<string | null>(null);
 
     const usernameInput = useRef<HTMLInputElement>(null);
     const emailInput = useRef<HTMLInputElement>(null);
@@ -21,10 +22,14 @@ const Registration = () => {
     const [validEmail, setValidEmail] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
 
-    const submitForm =async (e: React.FormEvent<HTMLFormElement>) => {
+    const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (usernameInput.current == null || emailInput.current == null || passwordInput.current == null) {
+        if (
+            usernameInput.current == null ||
+            emailInput.current == null ||
+            passwordInput.current == null
+        ) {
             return;
         }
 
@@ -56,15 +61,13 @@ const Registration = () => {
                 });
 
                 if (response.ok) {
-
                     // Registration successful
-                    setRegister(1)
-
-
+                    setRegister(1);
                 } else {
                     // Registration failed
                     // Handle the error, e.g., display an error message
-                    console.error('Registration failed:', response.statusText);
+                    const errorMessage = await response.text();
+                    setError(errorMessage);
                 }
             } catch (error) {
                 console.error('Error during registration:', error);
@@ -72,6 +75,7 @@ const Registration = () => {
             }
         }
     };
+
     if (user != undefined) {
         const from = searchParams.get('from');
         if (from != null) {
@@ -89,7 +93,7 @@ const Registration = () => {
     const validateEmail = (email: string) => {
         // Add your email validation logic here
         // For simplicity, let's just check if it contains '@'
-        return email.includes('@');
+        return email.trim() !== '';
     };
 
     const validatePassword = (password: string) => {
@@ -98,39 +102,79 @@ const Registration = () => {
         return password.trim() !== '';
     };
 
-    return (<>
-        {register == 0 && (
-            <form className="flex flex-col gap-2 rounded" onSubmit={submitForm}>
-                <Input
-                    type="text"
-                    placeholder="Username"
-                    name="username"
-                    ref={usernameInput}
-                    className={!validUsername ? 'border-red-500' : ''}
-                />
-                <Input
-                    type="text"
-                    placeholder="Email"
-                    name="email"
-                    ref={emailInput}
-                    className={!validEmail ? 'border-red-500' : ''}
-                />
-                <Input
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    ref={passwordInput}
-                    className={!validPassword ? 'border-red-500' : ''}
-                />
-                <Button>Register</Button>
-            </form>
-        )}
-    {register != 0 && (
-        <h2>
-            Please confirm email and login
-        </h2>
-    )}
-        </>
+    return (
+        <div className="flex flex-col items-center">
+            {' '}
+            {/* Użyj flexboxa, aby wyśrodkować elementy w pionie */}
+            {register === 0 && (
+                <form
+                    className="flex flex-col gap-2 rounded"
+                    onSubmit={submitForm}
+                >
+                    <Input
+                        type="text"
+                        placeholder="Username"
+                        name="username"
+                        ref={usernameInput}
+                        className={!validUsername ? 'border-red-500' : ''}
+                    />
+                    {!validUsername && (
+                        <span
+                            className="text-red-500"
+                            style={{
+                                display: 'inline-block',
+                                textAlign: 'center',
+                            }}
+                        >
+                            Username cannot be empty.
+                        </span>
+                    )}
+                    <Input
+                        type="text"
+                        placeholder="Email"
+                        name="email"
+                        ref={emailInput}
+                        className={!validEmail ? 'border-red-500' : ''}
+                    />
+                    {!validEmail && (
+                        <span
+                            className="text-red-500"
+                            style={{
+                                display: 'inline-block',
+                                textAlign: 'center',
+                            }}
+                        >
+                            Email cannot be empty.
+                        </span>
+                    )}
+                    <Input
+                        type="password"
+                        placeholder="Password"
+                        name="password"
+                        ref={passwordInput}
+                        className={!validPassword ? 'border-red-500' : ''}
+                    />
+                    {!validPassword && (
+                        <span
+                            className="text-red-500"
+                            style={{
+                                display: 'inline-block',
+                                textAlign: 'center',
+                            }}
+                        >
+                            Password cannot be empty.
+                        </span>
+                    )}
+                    <Button>Register</Button>
+                </form>
+            )}
+            {error && (
+                <div className="rounded bg-red-100 p-2 text-red-500">
+                    {error}
+                </div>
+            )}
+            {register !== 0 && <h2>Please confirm email and login</h2>}
+        </div>
     );
 };
 

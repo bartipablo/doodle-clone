@@ -43,6 +43,14 @@ public class AuthService {
         attendee.setCreated(Instant.now());
         attendee.setEnabled(false);
 
+        if (registerRequest.getPassword() == null || registerRequest.getPassword().length() < 8) {
+            throw new IllegalStateException("Password should be at least 8 characters long");
+        }
+
+        if (registerRequest.getPassword().length() > 50) {
+            throw new IllegalStateException("Password should be at most 50 characters long");
+        }
+
         if (attendeeRepository.findByUsername(attendee.getUsername()).isPresent()) {
             throw new IllegalStateException("Username already taken");
         }
