@@ -1,15 +1,15 @@
 import { useAtom } from 'jotai';
 import { userAtom } from '../lib/user';
 import { Navigate, useLocation, useSearchParams } from 'react-router-dom';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {serverUrl} from "@/lib/data.ts";
-
+import { serverUrl } from '@/lib/data.ts';
 
 const Login = () => {
     const [user, setUser] = useAtom(userAtom);
     const [searchParams, _] = useSearchParams();
+    const [error, setError] = useState<string | null>(null); // Dodajemy stan do przechowywania błędu logowania
 
     const loginInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
@@ -26,7 +26,6 @@ const Login = () => {
             password: passwordInput.current.value,
         };
         try {
-            // Make a request to your Spring backend for registration
             const response = await fetch(`${serverUrl}/api/auth/login/`, {
                 method: 'POST',
                 headers: {
@@ -39,22 +38,17 @@ const Login = () => {
                 response.json().then((data) => {
                     document.cookie = `authenticationToken=${data.authenticationToken}; path=/`;
                     document.cookie = `refreshToken=${data.refreshToken}; path=/`;
-                    setUser(data.id)
-                })
+                    setUser(data.id);
+                });
                 // Registration successful
-
-
-
             } else {
                 // Registration failed
-                // Handle the error, e.g., display an error message
-                console.error('Login failed:', response.statusText);
+                const errorMessage = await response.text();
+                setError(errorMessage);
             }
         } catch (error) {
-            console.error('Error during login:', error);
-            // Handle error as needed
+            setError('Error: connection refused');
         }
-
     };
 
     if (user != undefined) {
@@ -66,21 +60,28 @@ const Login = () => {
     }
 
     return (
-        <form className="flex flex-col gap-2 rounded" onSubmit={submitForm}>
-            <Input
-                type="text"
-                placeholder="Login"
-                name="login"
-                ref={loginInput}
-            />
-            <Input
-                type="password"
-                placeholder="Password"
-                name="password"
-                ref={passwordInput}
-            />
-            <Button>Login</Button>
-        </form>
+        <div>
+            <form className="flex flex-col gap-2 rounded" onSubmit={submitForm}>
+                <Input
+                    type="text"
+                    placeholder="Login"
+                    name="login"
+                    ref={loginInput}
+                />
+                <Input
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    ref={passwordInput}
+                />
+                <Button>Login</Button>
+            </form>
+            {error && (
+                <div className="rounded bg-red-100 p-2 text-red-500">
+                    {error}
+                </div>
+            )}
+        </div>
     );
 };
 

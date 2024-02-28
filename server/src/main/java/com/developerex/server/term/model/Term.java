@@ -29,7 +29,6 @@ public class Term {
 
     @PositiveOrZero(message = "Duration must be positive or zero")
     @NotNull(message = "Duration must not be null")
-
     private int duration;
 
     @OneToMany(mappedBy = "term")
